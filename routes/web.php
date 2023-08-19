@@ -13,7 +13,14 @@ use App\Http\Controllers\WebSocketController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/ws', [WebSocketController::class, 'onOpen']);
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+// Route::get('/ws', [WebSocketController::class, 'onOpen']);
+
+
+// // Route::get('/ws://localhost:3000/ws', [WebSocketController::class, 'onOpen'])->name('test');
+Route::get('/chat', function () {
+    return view('chat');
+});
+
+Auth::routes();
+Route::get('/', [App\Http\Controllers\AdminController::class, 'index'])->name('admin');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

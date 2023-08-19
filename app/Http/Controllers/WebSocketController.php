@@ -2,28 +2,50 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
 class WebSocketController extends Controller implements MessageComponentInterface
 {
+    protected $clients;
+
+    public function __construct()
+    {
+        $this->clients = new \SplObjectStorage;
+    }
+
     public function onOpen(ConnectionInterface $conn)
     {
-        // Logic when a new connection is opened
+        $this->clients->attach($conn);
+
+        Log::info("New WebSocket connection opened ({$conn->resourceId})");
     }
 
     public function onMessage(ConnectionInterface $from, $msg)
     {
-        // Logic when a message is received
+        $numRecv = count($this->clients) - 1;
+        Log::info("Connection {$from->resourceId} sending message: {$msg}");
+
+        foreach ($this->clients as $client) {
+            if ($from !== $client) {
+                // Kirim pesan ke semua klien, kecuali pengirimnya
+                $client->send("User {$from->resourceId}: {$msg}");
+            }
+        }
     }
 
     public function onClose(ConnectionInterface $conn)
     {
-        // Logic when a connection is closed
+        $this->clients->detach($conn);
+
+        Log::info("WebSocket connection closed ({$conn->resourceId})");
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e)
     {
-        // Logic when an error occurs
+        Log::error("An error occurred: {$e->getMessage()}");
+
+        $conn->close();
     }
 }

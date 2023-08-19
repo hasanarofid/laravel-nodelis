@@ -1,25 +1,32 @@
 # Sistem
-project Websocket Lis dengan laravel
+project Sistem LIS
+
+## Sistem LIS
+
 
 ### Installation
+1. Clone the repository using the command "git clone [link]"
+2. Create database in MySql
+3. Configure the .env file accordingly
+4. Run command 
 
 ```
-composer require cboden/ratchet
+$composer install
+$php artisan migrate
+$php artisan db:seed
+$php artisan serve
+$php artisan storage:link
 ```
-### Install express express-ws
-
+### Mendapat Update kodingan terbaru
 ```
-npm install express express-ws
-```
-
-### run server js
-
-```
-node server.js
+$ git fetch origin master
+$ git pull origin master
 ```
 
-### run php artisan serve
+## Progres 19/8/2023
+* setting admin (done)
+* integrasi database LIS 
 
-```
-php artisan serve
-```
+
+* demo
+![demo](public/demo.png)
