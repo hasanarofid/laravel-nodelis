@@ -71,7 +71,16 @@
         </li>
         @if (Auth::user()->role == 'Admin')
           <li class="nav-item">
-            <a class="nav-link  " href="">
+            <a class="nav-link   {{ (request()->is('admin/testdata*')) ? 'active' : '' }}" href="{{ route('testdata.index') }}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-single-02 text-primary text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Test Data</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link  {{ (request()->is('admin/pasien*')) ? 'active' : '' }} " href="{{ route('pasien.index') }}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-single-02 text-primary text-sm opacity-10"></i>
               </div>
@@ -80,7 +89,7 @@
           </li>
 
             <li class="nav-item">
-            <a class="nav-link  " href="">
+            <a class="nav-link  {{ (request()->is('admin/dokter*')) ? 'active' : '' }}" href="{{ route('dokter.index') }}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="fa fa-user-md text-primary text-sm opacity-10"></i>
               </div>
