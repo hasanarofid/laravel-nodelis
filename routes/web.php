@@ -62,5 +62,23 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
          Route::get('/hapus/{id}', [App\Http\Controllers\DokterController::class, 'hapus'])->name('dokter.hapus');
          Route::post('/update/{id}', [App\Http\Controllers\DokterController::class, 'update'])->name('dokter.update');
     });
-    // end route menu produk 
+    // end route menu Dokter 
+
+        // route menu Order 
+    Route::prefix('order')->group(function () {
+        Route::get('/', [App\Http\Controllers\OrderController::class, 'index'])->name('order.index');
+    });
+
+    // route menu Test 
+    Route::prefix('test')->group(function () {
+        Route::get('/', [App\Http\Controllers\TestController::class, 'index'])->name('test.index');
+        Route::get('list', [App\Http\Controllers\TestController::class, 'list'])->name('test.list');
+        Route::get('add', [App\Http\Controllers\TestController::class, 'add'])->name('test.add');
+        Route::post('store', [App\Http\Controllers\TestController::class, 'store'])->name('test.store');
+         Route::get('/detail/{id}', [App\Http\Controllers\TestController::class, 'detail'])->name('test.detail');
+         Route::get('/edit/{id}', [App\Http\Controllers\TestController::class, 'edit'])->name('test.edit');
+         Route::get('/hapus/{id}', [App\Http\Controllers\TestController::class, 'hapus'])->name('test.hapus');
+         Route::post('/update/{id}', [App\Http\Controllers\TestController::class, 'update'])->name('test.update');
+    });
+    // end route menu Test 
 });
