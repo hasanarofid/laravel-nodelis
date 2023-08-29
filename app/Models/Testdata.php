@@ -9,4 +9,5 @@ class Testdata extends Model
 {
     use HasFactory;
     protected $table = 'test_data';
+     public $timestamps = false;
 }

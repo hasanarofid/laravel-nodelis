@@ -67,6 +67,12 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         // route menu Order 
     Route::prefix('order')->group(function () {
         Route::get('/', [App\Http\Controllers\OrderController::class, 'index'])->name('order.index');
+        Route::get('/getpasien', [App\Http\Controllers\OrderController::class, 'getpasien'])->name('order.getpasien');
+        Route::get('/getDokter', [App\Http\Controllers\OrderController::class, 'getDokter'])->name('order.getDokter');
+   Route::post('store', [App\Http\Controllers\OrderController::class, 'store'])->name('order.store');
+     
+
+
     });
 
     // route menu Test 
