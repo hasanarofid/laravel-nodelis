@@ -55,27 +55,133 @@
 
                                </div>
                         </div>
-                      
-<hr >
-<p>Pilih Tindakan</p>
+                        <div class="form-group row">
+                            <label for="email" class="col-md-4 col-form-label text-md-right">Dokter</label>
+                            <div class="col-md-6">
+                               <select class="form-control" id="dokter"  name="dokter">
+                              </select>
+
+                            </div>
+                        </div>
+<hr style="">
  <div class="form-group row">
- <div class="input-group mb-3">
-                        <select class="form-control" id="tindakan"  >
-                        </select>
+                <!-- hgb --> 
+                <div id="input-container">
+                           <div class="input-group mb-3">
+                              <label for="email" class="col-md-4 col-form-label text-md-right">HGB</label>
+                              <input style="height: 70%;" name="hgb[]" type="text" class="form-control" placeholder="Enter value">
 
                               <div class="input-group-append">
-                                    <button type="button" class="btn btn-sm btn-success" id="add-tindakan">Add Tindakan</button>
+                                    <button type="button" class="btn btn-sm btn-success" id="add-input">Add Input</button>
                               </div>
                            </div>
+                  </div>
+                  <!-- end hgb -->
+
+                   <!-- wbc --> 
+                  <div id="input-container2">
+                           <div class="input-group mb-3">
+                              <label for="email" class="col-md-4 col-form-label text-md-right">WBC</label>
+                              <input style="height: 70%;" name="wbc[]" type="text" class="form-control" placeholder="Enter value">
+
+                              <div class="input-group-append">
+                                    <button type="button" class="btn btn-sm btn-success" id="add-input2">Add Input</button>
+                              </div>
                            </div>
+                  </div>
+                   <!-- end wbc --> 
 
-<hr >
+                    <!-- PLT --> 
+                  <div id="input-container3">
+                           <div class="input-group mb-3">
+                              <label for="email" class="col-md-4 col-form-label text-md-right">PLT</label>
+                              <input style="height: 70%;" name="plt[]" type="text" class="form-control" placeholder="Enter value">
 
- <div class="form-group row">
-       <p>Transaksi Tindakan</p>         
-       <div id="newinput">
-       
-       </div>
+                              <div class="input-group-append">
+                                    <button type="button" class="btn btn-sm btn-success" id="add-input3">Add Input</button>
+                              </div>
+                           </div>
+                  </div>
+                   <!-- end PLT --> 
+
+                   <!-- RBC --> 
+                  <div id="input-container4">
+                           <div class="input-group mb-3">
+                              <label for="email" class="col-md-4 col-form-label text-md-right">RBC</label>
+                              <input style="height: 70%;" name="rbc[]" type="text" class="form-control" placeholder="Enter value">
+
+                              <div class="input-group-append">
+                                    <button type="button" class="btn btn-sm btn-success" id="add-input4">Add Input</button>
+                              </div>
+                           </div>
+                  </div>
+                   <!-- end RBC --> 
+
+                   <!-- HCT --> 
+                  <div id="input-container5">
+                           <div class="input-group mb-3">
+                              <label for="email" class="col-md-4 col-form-label text-md-right">HCT </label>
+                              <input style="height: 70%;" name="hct[]" type="text" class="form-control" placeholder="Enter value">
+
+                              <div class="input-group-append">
+                                    <button type="button" class="btn btn-sm btn-success" id="add-input5">Add Input</button>
+                              </div>
+                           </div>
+                  </div>
+                   <!-- end HCT --> 
+
+                     <!-- MCV --> 
+                  <div id="input-container6">
+                           <div class="input-group mb-3">
+                              <label for="email" class="col-md-4 col-form-label text-md-right">MCV </label>
+                              <input style="height: 70%;" name="mcv[]" type="text" class="form-control" placeholder="Enter value">
+
+                              <div class="input-group-append">
+                                    <button type="button" class="btn btn-sm btn-success" id="add-input6">Add Input</button>
+                              </div>
+                           </div>
+                  </div>
+                   <!-- end MCV --> 
+
+                    <!-- MCH --> 
+                  <div id="input-container7">
+                           <div class="input-group mb-3">
+                              <label for="email" class="col-md-4 col-form-label text-md-right">MCH </label>
+                              <input style="height: 70%;" name="mch[]" type="text" class="form-control" placeholder="Enter value">
+
+                              <div class="input-group-append">
+                                    <button type="button" class="btn btn-sm btn-success" id="add-input7">Add Input</button>
+                              </div>
+                           </div>
+                  </div>
+                   <!-- end MCH --> 
+
+                    <!-- MCHC --> 
+                  <div id="input-container8">
+                           <div class="input-group mb-3">
+                              <label for="email" class="col-md-4 col-form-label text-md-right">MCHC </label>
+                              <input style="height: 70%;" name="mchc[]" type="text" class="form-control" placeholder="Enter value">
+
+                              <div class="input-group-append">
+                                    <button type="button" class="btn btn-sm btn-success" id="add-input8">Add Input</button>
+                              </div>
+                           </div>
+                  </div>
+                   <!-- end MCHC --> 
+
+                     <!-- PLT_Clumps --> 
+                  <div id="input-container9">
+                           <div class="input-group mb-3">
+                              <label for="email" class="col-md-4 col-form-label text-md-right">PLT_Clumps </label>
+                              <input style="height: 70%;" name="pltclumps[]" type="text" class="form-control" placeholder="Enter value">
+
+                              <div class="input-group-append">
+                                    <button type="button" class="btn btn-sm btn-success" id="add-input9">Add Input</button>
+                              </div>
+                           </div>
+                  </div>
+                   <!-- end PLT_Clumps --> 
+            
           
  </div>
 
@@ -85,7 +191,7 @@
                 </div>
                 
                 <div class="text-center">
-                  <button type="submit"  class="btn bg-success text-white w-100 my-4 mb-2">Simpan</button>
+                  <button type="submit" class="btn bg-success text-white w-100 my-4 mb-2">Simpan</button>
                 </div>
               </form>
             </div>
@@ -101,58 +207,9 @@
 @section('js')
  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
  <script>
-  function tambah(id){
-   
-        const inputContainer9 = jQuery("#input-container_"+id);
-            
-            // Add new input group
-                const newInputGroup9 = `
-                    <div class="input-group mb-3">
-                     <label for="email" class="col-md-4 col-form-label text-md-right"></label>
-                              <input style="height: 70%;" name="tindakan[`+id+ `][]" type="text" class="form-control" placeholder="Enter value">
-                        <div class="input-group-append">
-                            <button class="btn btn-sm btn-danger remove-input_`+id+ `" onclick="hapus(`+id+ `)" type="button">Remove</button>
-                        </div>
-                    </div>
-                `;
-                inputContainer9.append(newInputGroup9);
-           
-        }
-         function hapus(id){
-              const inputContainer9 = jQuery("#input-container_"+id);
-// Remove input group
-            inputContainer9.on("click", ".remove-input_"+id, function() {
-                jQuery(this).closest(".input-group").remove();
-            });
-            // end MCHC
-         }
-
         jQuery(document).ready(function() {
-jQuery("#add-tindakan").click(function () {
-    var tindakan = jQuery("#tindakan").val();
-    var nama_tindakan = jQuery("#tindakan").find('option:selected').text();
-    // console.log(nama_tindakan);
-            newRowAdd =
-               `<div id="input-container_`+tindakan+ `">
-                           <div class="input-group mb-3">
-                              <label for="email" class="col-md-4 col-form-label text-md-right"> `+nama_tindakan+ ` </label>
-                              <input style="height: 70%;" name="tindakan[`+tindakan+ `][]" type="text" class="form-control" placeholder="Enter value">
 
-                              <div class="input-group-append">
-                                    <button type="button" class="btn btn-sm btn-success" onclick="tambah(`+tindakan+ `)"  id="add-input9">Add Input</button>
-                              </div>
-                           </div>
-                  </div>`;
- 
-            jQuery('#newinput').append(newRowAdd);
-        });
-        jQuery("body").on("click", "#DeleteRow", function () {
-            jQuery(this).parents("#row").remove();
-        })
-
-       
             
-
          //PLT_Clumps
               const inputContainer9 = jQuery("#input-container9");
             const addInputButton9 = jQuery("#add-input9");
@@ -263,9 +320,9 @@ jQuery("#add-tindakan").click(function () {
                 }
             });
 
-             jQuery('#tindakan').select2({
+             jQuery('#dokter').select2({
                 ajax: {
-                    url: "{{ route('order.getTindakan') }}",
+                    url: "{{ route('order.getDokter') }}",
                     dataType: 'json',
                     processResults: function(data) {
                         return {

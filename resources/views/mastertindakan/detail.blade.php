@@ -1,9 +1,9 @@
 @extends('layouts.master')
-@section('title','Detail Pasien')
-@section('subjudul','Detail Pasien')
+@section('title','Detail Master Tindakan')
+@section('subjudul','Detail Master Tindakan')
 @section('breadcrumbs')
 <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Dashboard</a></li>
-<li class="breadcrumb-item text-sm text-white active" aria-current="page">Detail Pasien</li>
+<li class="breadcrumb-item text-sm text-white active" aria-current="page">Detail Master Tindakan</li>
 
 @endsection
 <style>
@@ -74,7 +74,7 @@ strong {
             <div class="card-header pb-0 p-3">
                 <div class="row">
                   <div class="col-6 d-flex align-items-center">
-                    <h6 class="mb-0">Detail Pasien</h6>
+                    <h6 class="mb-0">Detail Master Tindakan </h6>
                   </div>
                 </div>
               </div>
@@ -82,13 +82,11 @@ strong {
           <div class="card-body ">
 
 
-           <h1>Patient Details</h1>
+           <h1>Master Tindakan Details</h1>
         <div class="patient-card">
             <div class="patient-info">
                 <h2>{{ $model->name  }}</h2>
-                <p><strong>No RM:</strong> {{ $model->no_rm  }}</p>
-                <p><strong>Jenis Kelamin:</strong> {{ $model->sex  }}</p>
-                <p><strong>Address:</strong> {{ $model->address  }}</p>
+                <p><strong>Stok:</strong> {{ $model->stok  }}</p>
             </div>
             {{-- <div class="patient-medical">
                 <h2>Medical Information</h2>

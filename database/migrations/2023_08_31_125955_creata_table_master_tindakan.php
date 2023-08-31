@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePatientTable extends Migration
+class CreataTableMasterTindakan extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,10 @@ class CreatePatientTable extends Migration
      */
     public function up()
     {
-        Schema::create('patient', function (Blueprint $table) {
+        Schema::create('master_tindakan', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('medical_record')->nullable();
-            $table->bigInteger('nik')->nullable();
-            $table->string('no_rm');
-            $table->string('address');
-            $table->enum('sex', ['Laki-Laki', 'Perempuan']);
+            $table->float('stok')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +28,6 @@ class CreatePatientTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('patient');
+        //
     }
 }

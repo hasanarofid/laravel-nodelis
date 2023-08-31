@@ -1,9 +1,9 @@
 @extends('layouts.master')
-@section('title','Add Pasien')
-@section('subjudul','Add Pasien')
+@section('title','Add Master Tindakan')
+@section('subjudul','Add Master Tindakan')
 @section('breadcrumbs')
 <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Dashboard</a></li>
-<li class="breadcrumb-item text-sm text-white active" aria-current="page">Add Pasien</li>
+<li class="breadcrumb-item text-sm text-white active" aria-current="page">Add Master Tindakan</li>
 
 @endsection
 
@@ -15,12 +15,12 @@
             <div class="card-header pb-0 p-3">
                 <div class="row">
                   <div class="col-6 d-flex align-items-center">
-                    <h6 class="mb-0">Add Pasien</h6>
+                    <h6 class="mb-0">Add Master Tindakan</h6>
                   </div>
                 </div>
               </div>
               <div class="card-body">
-            <form role="form" method="POST" action="{{ route('pasien.store') }}" enctype="multipart/form-data">
+            <form role="form" method="POST" action="{{ route('mastertindakan.store') }}" enctype="multipart/form-data">
                         @csrf
 
                 <div class="mb-3">
@@ -35,29 +35,12 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">No RM</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-right">Stok</label>
                             <div class="col-md-6">
-                                <input  placeholder="No RM" type="text" class="form-control" id="no_rm"  name="no_rm" required >
+                                <input  placeholder="Stok" type="number" class="form-control" id="stok"  name="stok" required >
                             </div>
                         </div>
 
-                           <div class="form-group row">
-                        <label for="jenis" class="col-md-4 col-form-label "> Jenis Kelamin</label>
-                            <div class="col-md-6">
-                              <select name="jenis" id="jenis" class="form-control" required>
-                                 <option value="">.: Pilih :.</option>
-                                 <option value="Laki-Laki">Laki-Laki</option>
-                                 <option value="Perempuan">Perempuan</option>
-                              </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">Alamat</label>
-                            <div class="col-md-6">
-                                <input  placeholder="address" type="text" class="form-control" id="address"  name="address"  >
-                            </div>
-                        </div>
-                        
 
                 </div>
                 

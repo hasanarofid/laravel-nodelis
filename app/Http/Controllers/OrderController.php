@@ -7,6 +7,8 @@ use App\Models\Patient;
 use App\Models\Doctor;
 use Illuminate\Support\Facades\DB;
 use App\Models\Testdata;
+use App\Models\MasterTindakan;
+use App\Models\MutasiTindakan;
 
 class OrderController extends Controller
 {
@@ -18,9 +20,9 @@ class OrderController extends Controller
     public function getpasien(Request $request)
     {
         $search = $request->term;
-$data = Patient::select(DB::raw("CONCAT(name, ' - ', nik) AS text"), 'id')
+$data = Patient::select(DB::raw("CONCAT(name, ' - ', no_rm) AS text"), 'id')
         ->where('name', 'LIKE', "%$search%")
-        ->orWhere('nik', 'LIKE', "%$search%")
+        ->orWhere('no_rm', 'LIKE', "%$search%")
         ->get();
         
         return response()->json($data);
@@ -35,127 +37,61 @@ $data = Doctor::select(DB::raw("CONCAT(name, ' - ', nik) AS text"), 'id')
         ->where('name', 'LIKE', "%$search%")
         ->orWhere('nik', 'LIKE', "%$search%")
         ->get();
-        
-        
+        return response()->json($data);
+    }
 
+
+ //getTindakan
+     public function getTindakan(Request $request)
+    {
+        $search = $request->term;
+$data = MasterTindakan::select(DB::raw("CONCAT(name, ' - ', stok) AS text"), 'id')
+        ->where('name', 'LIKE', "%$search%")
+        ->orWhere('stok', 'LIKE', "%$search%")
+        ->get();
         return response()->json($data);
     }
 
     //store
      public function store(Request $request)
     {
+        // dd($request->post());
         $pasien = Patient::find($request->pasien);
-        $dokter = Doctor::find($request->dokter);
-// dd($request);
-// RESULT_TEST_ID
-// RESULT_VALUE
-            // HGB
-        foreach($request->hgb as $val){
-            $model = new Testdata();
-            $model->PATIENT_ID_OPT = $pasien->id;
-            $model->PATIENT_NAME = $pasien->name;
-            $model->RESULT_TEST_ID = 'HGB';
-            $model->RESULT_VALUE = $val;
-            $model->RESULT_DATE = now();
-            $model->save();
-        }
-         // end save HGB
 
-         // WBC
-        foreach($request->wbc as $val){
-            $model = new Testdata();
-            $model->PATIENT_ID_OPT = $pasien->id;
-            $model->PATIENT_NAME = $pasien->name;
-            $model->RESULT_TEST_ID = 'WBC';
-            $model->RESULT_VALUE = $val;
-            $model->RESULT_DATE = now();
-            $model->save();
-        }
-         // end save WBC
+        foreach($request->tindakan as $key=>$value){
+            $stok = MasterTindakan::find($key)->stok;
+            $test = MasterTindakan::find($key)->name;
+            $tindakan = MasterTindakan::find($key);
+           
+            foreach($value as $mutasi){
+$output = str_replace(',', '.', $mutasi);
+// var_dump($output); // string(4) "5.50"
+$number = (float)$output;
+                 $hasil = (float)$stok - $number;
+            // dd($hasil);
+                 $model = new Testdata();
+                $model->PATIENT_ID_OPT = $pasien->no_rm;
+                $model->PATIENT_NAME = $pasien->name;
+                $model->RESULT_TEST_ID = $test;
+                $model->RESULT_VALUE = $mutasi;
+                $model->RESULT_DATE = now();
+                $model->save();
 
-          // PLT
-        foreach($request->plt as $val){
-            $model = new Testdata();
-            $model->PATIENT_ID_OPT = $pasien->id;
-            $model->PATIENT_NAME = $pasien->name;
-            $model->RESULT_TEST_ID = 'PLT';
-            $model->RESULT_VALUE = $val;
-            $model->RESULT_DATE = now();
-            $model->save();
-        }
-         // end save PLT
+                $modelmutasi = new MutasiTindakan();
+                $modelmutasi->tanggal = now();
+                $modelmutasi->mutasi = $hasil;
+                $modelmutasi->patien_id = $pasien->id;
+                $modelmutasi->tindakan_id = $tindakan->id;
+                $modelmutasi->save();
 
-            // RBC
-        foreach($request->rbc as $val){
-            $model = new Testdata();
-            $model->PATIENT_ID_OPT = $pasien->id;
-            $model->PATIENT_NAME = $pasien->name;
-            $model->RESULT_TEST_ID = 'RBC';
-            $model->RESULT_VALUE = $val;
-            $model->RESULT_DATE = now();
-            $model->save();
-        }
-         // end save RBC
+                // pungurangan stok
+                $tindakan->stok = $hasil;
+                $tindakan->save();
+            }
 
-          // HCT
-        foreach($request->hct as $val){
-            $model = new Testdata();
-            $model->PATIENT_ID_OPT = $pasien->id;
-            $model->PATIENT_NAME = $pasien->name;
-            $model->RESULT_TEST_ID = 'HCT';
-            $model->RESULT_VALUE = $val;
-            $model->RESULT_DATE = now();
-            $model->save();
+            
         }
-         // end save HCT
-
-         // MCV
-        foreach($request->mcv as $val){
-            $model = new Testdata();
-            $model->PATIENT_ID_OPT = $pasien->id;
-            $model->PATIENT_NAME = $pasien->name;
-            $model->RESULT_TEST_ID = 'MCV';
-            $model->RESULT_VALUE = $val;
-            $model->RESULT_DATE = now();
-            $model->save();
-        }
-         // end save MCV
-
-         // MCH
-        foreach($request->mch as $val){
-            $model = new Testdata();
-            $model->PATIENT_ID_OPT = $pasien->id;
-            $model->PATIENT_NAME = $pasien->name;
-            $model->RESULT_TEST_ID = 'MCH';
-            $model->RESULT_VALUE = $val;
-            $model->RESULT_DATE = now();
-            $model->save();
-        }
-         // end save MCH
-
-         // MCHC
-        foreach($request->mchc as $val){
-            $model = new Testdata();
-            $model->PATIENT_ID_OPT = $pasien->id;
-            $model->PATIENT_NAME = $pasien->name;
-            $model->RESULT_TEST_ID = 'MCHC';
-            $model->RESULT_VALUE = $val;
-            $model->RESULT_DATE = now();
-            $model->save();
-        }
-         // end save MCH
-
-         // pltclumps
-        foreach($request->pltclumps as $val){
-            $model = new Testdata();
-            $model->PATIENT_ID_OPT = $pasien->id;
-            $model->PATIENT_NAME = $pasien->name;
-            $model->RESULT_TEST_ID = 'PLT_Clumps';
-            $model->RESULT_VALUE = $val;
-            $model->RESULT_DATE = now();
-            $model->save();
-        }
-         // end save PLT_Clumps
+   
 
            return redirect()->route('testdata.index')->with('success', 'Order created successfully');
 

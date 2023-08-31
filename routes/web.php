@@ -64,11 +64,25 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     });
     // end route menu Dokter 
 
+    // route menu Master Tindakan 
+    Route::prefix('mastertindakan')->group(function () {
+        Route::get('/', [App\Http\Controllers\MastertindakanController::class, 'index'])->name('mastertindakan.index');
+        Route::get('list', [App\Http\Controllers\MastertindakanController::class, 'list'])->name('mastertindakan.list');
+        Route::get('add', [App\Http\Controllers\MastertindakanController::class, 'add'])->name('mastertindakan.add');
+        Route::post('store', [App\Http\Controllers\MastertindakanController::class, 'store'])->name('mastertindakan.store');
+         Route::get('/detail/{id}', [App\Http\Controllers\MastertindakanController::class, 'detail'])->name('mastertindakan.detail');
+         Route::get('/edit/{id}', [App\Http\Controllers\MastertindakanController::class, 'edit'])->name('mastertindakan.edit');
+         Route::get('/hapus/{id}', [App\Http\Controllers\MastertindakanController::class, 'hapus'])->name('mastertindakan.hapus');
+         Route::post('/update/{id}', [App\Http\Controllers\MastertindakanController::class, 'update'])->name('mastertindakan.update');
+    });
+    // end route Master Tindakan 
+
         // route menu Order 
     Route::prefix('order')->group(function () {
         Route::get('/', [App\Http\Controllers\OrderController::class, 'index'])->name('order.index');
         Route::get('/getpasien', [App\Http\Controllers\OrderController::class, 'getpasien'])->name('order.getpasien');
         Route::get('/getDokter', [App\Http\Controllers\OrderController::class, 'getDokter'])->name('order.getDokter');
+        Route::get('/getTindakan', [App\Http\Controllers\OrderController::class, 'getTindakan'])->name('order.getTindakan');
    Route::post('store', [App\Http\Controllers\OrderController::class, 'store'])->name('order.store');
      
 

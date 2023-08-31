@@ -52,10 +52,10 @@ class PasienController extends Controller
 
     //store
     public function store(Request $request){
-        // dd($request->name);
+        // dd($request->no_rm);
         $model = new Patient();
         $model->name = $request->name;
-        $model->nik = $request->nik;
+        $model->no_rm = $request->no_rm;
         $model->sex = $request->jenis;
         $model->address = $request->address;
         $model->save();
@@ -67,7 +67,7 @@ class PasienController extends Controller
         // dd($request->name);
          $model= Patient::find($id);
         $model->name = $request->name;
-        $model->nik = $request->nik;
+        $model->no_rm = $request->no_rm;
         $model->sex = $request->jenis;
         $model->address = $request->address;
         $model->save();

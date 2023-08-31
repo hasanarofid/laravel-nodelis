@@ -1,9 +1,9 @@
 @extends('layouts.master')
-@section('title','Pasien')
-@section('subjudul','List Pasien')
+@section('title','Master Tindakan')
+@section('subjudul','List Master Tindakan')
 @section('breadcrumbs')
 <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Dashboard</a></li>
-<li class="breadcrumb-item text-sm text-white active" aria-current="page">Pasien</li>
+<li class="breadcrumb-item text-sm text-white active" aria-current="page">Master Tindakan</li>
 
 @endsection
 <style>
@@ -31,10 +31,10 @@
             <div class="card-header pb-0 p-3">
                    <div class="row">
                   <div class="col-6 d-flex align-items-center">
-                    <h6 class="mb-0">Tabel Pasien</h6>
+                    <h6 class="mb-0">Tabel Master Tindakan</h6>
                   </div>
                   <div class="col-6 text-end">
-                    <a class="btn btn-sm bg-success text-white" href="{{ route('pasien.add') }}"><i class="fas fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Tambah Pasien</a>
+                    <a class="btn btn-sm bg-success text-white" href="{{ route('mastertindakan.add') }}"><i class="fas fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Tambah Tindakan</a>
                   </div>
                 </div>
               </div>
@@ -64,9 +64,7 @@
                   <tr>
                     <th class="text-uppercase text-xxs font-weight-bolder opacity-7">No</th>
                     <th class="text-uppercase text-xxs font-weight-bolder opacity-7">Name</th>
-                    <th class="text-uppercase text-xxs font-weight-bolder opacity-7">No RM</th>
-                    <th class="text-uppercase text-xxs font-weight-bolder opacity-7">Jenis Kelamin</th>
-                    <th class="text-uppercase text-xxs font-weight-bolder opacity-7">Address</th>
+                    <th class="text-uppercase text-xxs font-weight-bolder opacity-7">Stok</th>
                     <th class="text-uppercase text-xxs font-weight-bolder opacity-7">Aksi</th>
                   </tr>
                 </thead>
@@ -87,13 +85,11 @@
         jQuery('#data-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('pasien.list') }}", // Replace with your route
+            ajax: "{{ route('mastertindakan.list') }}", // Replace with your route
             columns: [
                  {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 { data: 'name', name: 'name' },
-                { data: 'no_rm', name: 'no_rm' },
-                { data: 'sex', name: 'sex' },
-                { data: 'address', name: 'address' },
+                { data: 'stok', name: 'stok' },
                {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
         });
