@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreataTableMutasiTindakan extends Migration
+class CreateInventoryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,14 @@ class CreataTableMutasiTindakan extends Migration
      */
     public function up()
     {
-         Schema::create('mutasi_tindakan', function (Blueprint $table) {
+        Schema::create('inventory', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('tanggal');
-            $table->float('mutasi')->nullable();
-            $table->unsignedBigInteger('patien_id'); // Foreign key column
-            $table->foreign('patien_id')->references('id')->on('patient');
+             $table->string('name');
+             $table->float('stok')->nullable();
             $table->unsignedBigInteger('tindakan_id'); // Foreign key column
             $table->foreign('tindakan_id')->references('id')->on('master_tindakan');
             $table->timestamps();
         });
-           
     }
 
     /**
@@ -33,6 +30,6 @@ class CreataTableMutasiTindakan extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('inventory');
     }
 }

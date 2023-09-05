@@ -1,9 +1,9 @@
 @extends('layouts.master')
-@section('title','Master Tindakan')
-@section('subjudul','List Master Tindakan')
+@section('title','Order data')
+@section('subjudul','List Order data')
 @section('breadcrumbs')
 <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Dashboard</a></li>
-<li class="breadcrumb-item text-sm text-white active" aria-current="page">Master Tindakan</li>
+<li class="breadcrumb-item text-sm text-white active" aria-current="page">Order data</li>
 
 @endsection
 <style>
@@ -17,10 +17,6 @@
     font-size: 12px; /* Adjust the font size to your desired value */
 }
 
-#data-table thead tr {
-    font-size: 14px; /* Adjust the font size to your desired value */
-}
-
 
 </style>
 @section ('content')
@@ -29,12 +25,12 @@
       <div class="col-12">
         <div class="card mb-4">
             <div class="card-header pb-0 p-3">
-                   <div class="row">
+                <div class="row">
                   <div class="col-6 d-flex align-items-center">
-                    <h6 class="mb-0">Tabel Master Tindakan</h6>
+                    <h6 class="mb-0">Tabel Order data</h6>
                   </div>
-                  <div class="col-6 text-end">
-                    <a class="btn btn-sm bg-success text-white" href="{{ route('mastertindakan.add') }}"><i class="fas fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Tambah Tindakan</a>
+                   <div class="col-6 text-end">
+                    <a class="btn btn-sm bg-success text-white" href="{{ route('order.index') }}"><i class="fas fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Tambah Order</a>
                   </div>
                 </div>
               </div>
@@ -59,15 +55,15 @@
 
 </style>
             <div class="table-responsive p-0">
-             <table class="table align-items-center table-primary  table-bordered" id="data-table">
+             <table class="table align-items-center mb-0 table-primary table-hover table-bordered" id="data-table">
                 <thead>
                   <tr>
-                    <th class="text-uppercase text-xxs font-weight-bolder opacity-7">No</th>
-                    <th class="text-uppercase text-xxs font-weight-bolder opacity-7">Name</th>
-                    <th class="text-uppercase text-xxs font-weight-bolder opacity-7">Master Utama</th>
-
-                    <th class="text-uppercase text-xxs font-weight-bolder opacity-7">Stok</th>
-                    <th class="text-uppercase text-xxs font-weight-bolder opacity-7">Aksi</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">KODE TRANSAKSI</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PATIENT ID</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PATIENT NAME</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">JUMLAH RESULT TEST ID</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Aksi</th>
                   </tr>
                 </thead>
               </table>
@@ -87,14 +83,18 @@
         jQuery('#data-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('mastertindakan.list') }}", // Replace with your route
+            ajax: "{{ route('order.listdata') }}", // Replace with your route
             columns: [
                  {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                { data: 'name', name: 'name' },
-                { data: 'sub', name: 'sub' },
+                { data: 'KODETRANSAKSI', name: 'KODETRANSAKSI' },
+                { data: 'PATIENT_ID_OPT', name: 'PATIENT_ID_OPT' },
 
-                { data: 'stok', name: 'stok' },
+                { data: 'PATIENT_NAME', name: 'PATIENT_NAME' },
+                { data: 'RESULT_TEST_ID', name: 'RESULT_TEST_ID' },
                {data: 'action', name: 'action', orderable: false, searchable: false},
+
+//  {data: 'action', name: 'action', orderable: false, searchable: false},
+                // Define more columns as needed
             ]
         });
     });

@@ -16,6 +16,8 @@ class CreataTableMasterTindakan extends Migration
         Schema::create('master_tindakan', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('kelompok')->nullable();
+            $table->integer('id_master')->nullable();
             $table->float('stok')->nullable();
             $table->timestamps();
         });

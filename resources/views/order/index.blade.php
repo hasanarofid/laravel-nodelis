@@ -101,7 +101,7 @@
 @section('js')
  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
  <script>
-  function tambah(id){
+  function tambah(id,tindakan){
    
         const inputContainer9 = jQuery("#input-container_"+id);
             
@@ -109,6 +109,7 @@
                 const newInputGroup9 = `
                     <div class="input-group mb-3">
                      <label for="email" class="col-md-4 col-form-label text-md-right"></label>
+                      <input type="hidden" style="height: 70%;" name="paket[`+tindakan+ `][]" value="`+tindakan+ `" >
                               <input style="height: 70%;" name="tindakan[`+id+ `][]" type="text" class="form-control" placeholder="Enter value">
                         <div class="input-group-append">
                             <button class="btn btn-sm btn-danger remove-input_`+id+ `" onclick="hapus(`+id+ `)" type="button">Remove</button>
@@ -129,23 +130,57 @@
 
         jQuery(document).ready(function() {
 jQuery("#add-tindakan").click(function () {
-    var tindakan = jQuery("#tindakan").val();
+        var tindakan = jQuery("#tindakan").val();
     var nama_tindakan = jQuery("#tindakan").find('option:selected').text();
-    // console.log(nama_tindakan);
-            newRowAdd =
-               `<div id="input-container_`+tindakan+ `">
+
+  jQuery.ajax({
+                    url: "{{ route('order.getlistTindakan') }}",
+                    data : {
+                        'id_master' : tindakan
+                    },
+                    dataType: 'json',
+
+                    success: function (response) {
+                        var newRowAdd = '';
+                        jQuery(response).each(function(index, element) {
+                            console.log(index);
+                            console.log(element.name);
+                                                     newRowAdd +=
+               `<div id="input-container_`+element.id+ `">
                            <div class="input-group mb-3">
-                              <label for="email" class="col-md-4 col-form-label text-md-right"> `+nama_tindakan+ ` </label>
-                              <input style="height: 70%;" name="tindakan[`+tindakan+ `][]" type="text" class="form-control" placeholder="Enter value">
+                              <label for="email" class="col-md-4 col-form-label text-md-right"> `+element.name+ ` </label>
+                               <input type="hidden" style="height: 70%;" name="paket[`+tindakan+ `][]" value="`+tindakan+ `" >
+                              <input style="height: 70%;" name="tindakan[`+element.id+ `][]" type="text" class="form-control" placeholder="Enter value">
 
                               <div class="input-group-append">
-                                    <button type="button" class="btn btn-sm btn-success" onclick="tambah(`+tindakan+ `)"  id="add-input9">Add Input</button>
+                                    <button type="button" class="btn btn-sm btn-success" onclick="tambah(`+element.id+ `,`+tindakan+ `)"  id="add-input9">Add Input</button>
                               </div>
                            </div>
                   </div>`;
+
+                        });
+                           jQuery('#newinput').append(newRowAdd);
+
+        },
+                    // processResults: function(data) {
+                    //                                 console.log(data)
+                    //     return {
+
+                            // results: data
+
+        
  
-            jQuery('#newinput').append(newRowAdd);
+         
+
+                    //     };
+                    // }
+                });
+
+
+
+       
         });
+
         jQuery("body").on("click", "#DeleteRow", function () {
             jQuery(this).parents("#row").remove();
         })

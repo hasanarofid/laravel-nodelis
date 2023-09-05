@@ -9,12 +9,55 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Testdata;
 use App\Models\MasterTindakan;
 use App\Models\MutasiTindakan;
+use App\Models\OrderData;
+use App\Models\Inventory;
+use DataTables;
 
 class OrderController extends Controller
 {
      //index
     public function index(){
         return view('order.index');     
+    }
+    //redirect list
+    public function list(){
+        return view('order.list');     
+    }
+    //get datatable
+    public function listdata(Request $request){
+        // dd($request)
+         if ($request->ajax()) {
+             $data = OrderData::select('PATIENT_ID_OPT','KODETRANSAKSI','PATIENT_NAME', DB::raw('count(RESULT_TEST_ID) as RESULT_TEST_ID'))
+        ->groupBy('PATIENT_ID_OPT','KODETRANSAKSI','PATIENT_NAME')
+        ->get();
+            // $post = Testdata::select('PATIENT_ID_OPT', DB::raw('SUM(amount) as total_amount'))
+            //  ->groupBy('patient_id')
+            // ->get();
+            // dd($post);
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    // number_format((int)$model->harga)
+                    //  ->addColumn('harga', function($row){
+                    //     return number_format((int)$row->harga);
+                    //  })->addColumn('foto', function($row){
+                    //         $foto =  asset('/storage/'.$row->foto);
+                   
+                    //  return  ' <div class="card card-profile"><img src="'.$foto.'" height="100px" alt="Image placeholder" class="card-img-top"></div>';
+                    // })
+                    ->addColumn('action', function($row){
+
+//  dd($row->ID);  
+                           $btn = '<a href="'.route('order.detail',array('id'=>$row->PATIENT_ID_OPT)).'" data-toggle="tooltip"  class="edit btn btn-primary btn-sm ">Detail</a>';
+                           $btn = $btn.' <a href="'.route('order.print',$row->PATIENT_ID_OPT).'" data-toggle="tooltip"  class="btn btn-warning btn-sm deletePost">Print</a>';
+                  
+    
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+
+     
     }
     //getpasien
     public function getpasien(Request $request)
@@ -47,7 +90,7 @@ $data = Doctor::select(DB::raw("CONCAT(name, ' - ', nik) AS text"), 'id')
         $search = $request->term;
 $data = MasterTindakan::select(DB::raw("CONCAT(name, ' - ', stok) AS text"), 'id')
         ->where('name', 'LIKE', "%$search%")
-        ->orWhere('stok', 'LIKE', "%$search%")
+        ->whereNull('id_master')
         ->get();
         return response()->json($data);
     }
@@ -57,19 +100,47 @@ $data = MasterTindakan::select(DB::raw("CONCAT(name, ' - ', stok) AS text"), 'id
     {
         // dd($request->post());
         $pasien = Patient::find($request->pasien);
+        $total_inventory = count($request->tindakan);
+        // dd($request->paket);
+        //proses inventory
+         foreach($request->paket as $key=>$value){
+                $inventory = Inventory::where('tindakan_id', $key)->get();
+               $pengurangan = 1;
+            foreach($inventory as $inv){
+                $inves = Inventory::find($inv->id);
+                $kurang = $inves->stok - $pengurangan;
+                //  dd($kurang);
 
+                 $modelmutasi = new MutasiTindakan();
+                $modelmutasi->tanggal = now();
+                $modelmutasi->mutasi = $pengurangan;
+                $modelmutasi->patien_id = $pasien->id;
+                $modelmutasi->inventory_id = $inves->id;
+                $modelmutasi->save();
+
+                // pungurangan stok
+                $inves->stok = $kurang;
+                $inves->save();
+               
+            }
+
+            
+              
+         }
         foreach($request->tindakan as $key=>$value){
             $stok = MasterTindakan::find($key)->stok;
             $test = MasterTindakan::find($key)->name;
             $tindakan = MasterTindakan::find($key);
-           
+          
+
             foreach($value as $mutasi){
-$output = str_replace(',', '.', $mutasi);
-// var_dump($output); // string(4) "5.50"
-$number = (float)$output;
+                $output = str_replace(',', '.', $mutasi);
+                // var_dump($output); // string(4) "5.50"
+                $number = (float)$output;
                  $hasil = (float)$stok - $number;
             // dd($hasil);
-                 $model = new Testdata();
+                $model = new OrderData();
+                $model->KODETRANSAKSI = $this->kodetransaksi();
                 $model->PATIENT_ID_OPT = $pasien->no_rm;
                 $model->PATIENT_NAME = $pasien->name;
                 $model->RESULT_TEST_ID = $test;
@@ -77,25 +148,36 @@ $number = (float)$output;
                 $model->RESULT_DATE = now();
                 $model->save();
 
-                $modelmutasi = new MutasiTindakan();
-                $modelmutasi->tanggal = now();
-                $modelmutasi->mutasi = $hasil;
-                $modelmutasi->patien_id = $pasien->id;
-                $modelmutasi->tindakan_id = $tindakan->id;
-                $modelmutasi->save();
-
-                // pungurangan stok
-                $tindakan->stok = $hasil;
-                $tindakan->save();
+              
             }
 
             
         }
    
 
-           return redirect()->route('testdata.index')->with('success', 'Order created successfully');
+           return redirect()->route('order.list')->with('success', 'Order created successfully');
 
 
+    }
+
+    public function getlistTindakan(Request $request){
+        $id_master = $request->id_master;
+
+        $data = MasterTindakan::where('id_master',$id_master)
+        ->get();
+        return response()->json($data);
+    }
+
+     public function kodetransaksi()
+    {
+        $initial_r = "LAB";
+        $default = "001";
+        $prefix = $initial_r . date('Ymd');
+        $transaksi = OrderData::select(DB::raw('CAST(MAX(SUBSTR(KODETRANSAKSI,' . (strlen($prefix) + 1) . ',' . (strlen($default)) . ')) AS integer) KODETRANSAKSI'))
+            ->where('KODETRANSAKSI', 'like', '' . $prefix . '%')
+            ->first();
+        $no_baru = $prefix . (isset($transaksi->KODETRANSAKSI) ? (str_pad($transaksi->KODETRANSAKSI + 1, strlen($default), 0, STR_PAD_LEFT)) : $default);
+        return $no_baru;
     }
 
 }
