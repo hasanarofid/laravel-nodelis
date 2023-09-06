@@ -108,9 +108,9 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         Route::post('store', [App\Http\Controllers\OrderController::class, 'store'])->name('order.store');
          Route::get('/detail/{id}', [App\Http\Controllers\OrderController::class, 'detail'])->name('order.detail');
          Route::get('/print/{id}', [App\Http\Controllers\OrderController::class, 'print'])->name('order.print');
+   Route::get('/print/{id}', [App\Http\Controllers\OrderController::class, 'print'])->name('order.print');
 
-
-
+   Route::get('transfer', [App\Http\Controllers\OrderController::class, 'transfer'])->name('order.transfer');
     });
 
     // route menu Test 
@@ -118,6 +118,8 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         Route::get('/', [App\Http\Controllers\TestController::class, 'index'])->name('test.index');
         Route::get('list', [App\Http\Controllers\TestController::class, 'list'])->name('test.list');
         Route::get('add', [App\Http\Controllers\TestController::class, 'add'])->name('test.add');
+     
+
         Route::post('store', [App\Http\Controllers\TestController::class, 'store'])->name('test.store');
          Route::get('/detail/{id}', [App\Http\Controllers\TestController::class, 'detail'])->name('test.detail');
          Route::get('/edit/{id}', [App\Http\Controllers\TestController::class, 'edit'])->name('test.edit');
@@ -125,4 +127,14 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
          Route::post('/update/{id}', [App\Http\Controllers\TestController::class, 'update'])->name('test.update');
     });
     // end route menu Test 
+
+      // route menu Laporan 
+    Route::prefix('laporan')->group(function () {
+        Route::get('/', [App\Http\Controllers\LaporanController::class, 'index'])->name('laporan.index');
+          Route::get('/listdata', [App\Http\Controllers\LaporanController::class, 'listdata'])->name('laporan.listdata');
+          Route::get('/print/{id}', [App\Http\Controllers\LaporanController::class, 'print'])->name('laporan.print');
+
+ Route::get('/detail/{id}', [App\Http\Controllers\LaporanController::class, 'detail'])->name('laporan.detail');
+             
+    });
 });

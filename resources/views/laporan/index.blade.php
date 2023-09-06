@@ -1,11 +1,12 @@
 @extends('layouts.master')
-@section('title','Order data')
-@section('subjudul','List Order data')
+@section('title','Laporan')
+@section('subjudul','List Laporan')
 @section('breadcrumbs')
 <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Dashboard</a></li>
-<li class="breadcrumb-item text-sm text-white active" aria-current="page">Order data</li>
+<li class="breadcrumb-item text-sm text-white active" aria-current="page">Laporan</li>
 
 @endsection
+
 <style>
 #data-table_info{
    font-size: 12px;
@@ -27,12 +28,10 @@
             <div class="card-header pb-0 p-3">
                 <div class="row">
                   <div class="col-6 d-flex align-items-center">
-                    <h6 class="mb-0">Tabel Order data</h6>
+                    <h6 class="mb-0">Tabel Laporan</h6>
                   </div>
-                   <div class="col-6 text-end">
-                    <a class="btn btn-sm bg-info text-white" href="{{ route('order.transfer') }}"><i class="fa fa-send-o" aria-hidden="true"></i>&nbsp;&nbsp;Transfer Order</a>
-                    <a class="btn btn-sm bg-success text-white" href="{{ route('order.index') }}"><i class="fas fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Tambah Order</a>
-
+                  <div class="col-6">
+                 
                   </div>
                 </div>
               </div>
@@ -83,9 +82,13 @@
     jQuery(document).ready(function () {
       // alert(1);
         jQuery('#data-table').DataTable({
+         //   dom: 'Bfrtip',
+         // buttons: [
+         //     'csv', 'excel', 'pdf', 'print'
+         // ],
             processing: true,
             serverSide: true,
-            ajax: "{{ route('order.listdata') }}", // Replace with your route
+            ajax: "{{ route('laporan.listdata') }}", // Replace with your route
             columns: [
                  {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 { data: 'KODETRANSAKSI', name: 'KODETRANSAKSI' },

@@ -30,6 +30,7 @@
    
 
     <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css">
 
 </head>
 <body class="g-sidenav-show   bg-gray-100">
@@ -117,7 +118,7 @@
           
 
           <li class="nav-item">
-            <a class="nav-link {{ (request()->is('admin/order*')) ? 'active' : '' }}" href="{{ route('order.index') }}">
+            <a class="nav-link {{ (request()->is('admin/order*')) ? 'active' : '' }}" href="{{ route('order.list') }}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-calendar-grid-58 text-primary text-sm opacity-10"></i>
               </div>
@@ -131,7 +132,7 @@
 
         
           <li class="nav-item">   
-            <a class="nav-link  " href="">
+            <a class="nav-link  {{ (request()->is('admin/laporan*')) ? 'active' : '' }}" href="{{ route('laporan.index') }}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-app text-primary text-sm opacity-10"></i>
               </div>
@@ -219,7 +220,10 @@
 
 
        <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
- 
+ <script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.colVis.min.js"></script>
 <script>
   $.noConflict();
   // Your jQuery code using jQuery directly with "jQuery" instead of "$"

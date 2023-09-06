@@ -17,6 +17,9 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
+        "maennchen/zipstream-php": "2.2.6",
+        "psr/http-message": "^1.0",
+        "yajra/laravel-datatables-buttons": "^4.13",
         "yajra/laravel-datatables-oracle": "^9.21"
     },
     "require-dev": {
