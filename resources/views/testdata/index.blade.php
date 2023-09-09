@@ -29,6 +29,10 @@
                   <div class="col-6 d-flex align-items-center">
                     <h6 class="mb-0">Tabel Test data</h6>
                   </div>
+                  <div class="col-6 text-end">
+                    <a class="btn btn-sm bg-info text-white" href="{{ route('testdata.transfer') }}"><i class="fa fa-send-o" aria-hidden="true"></i>&nbsp;&nbsp;Transfer Order</a>
+
+                  </div>
                 </div>
               </div>
 

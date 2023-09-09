@@ -30,7 +30,6 @@
                     <h6 class="mb-0">Tabel Order data</h6>
                   </div>
                    <div class="col-6 text-end">
-                    <a class="btn btn-sm bg-info text-white" href="{{ route('order.transfer') }}"><i class="fa fa-send-o" aria-hidden="true"></i>&nbsp;&nbsp;Transfer Order</a>
                     <a class="btn btn-sm bg-success text-white" href="{{ route('order.index') }}"><i class="fas fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Tambah Order</a>
 
                   </div>
@@ -61,7 +60,7 @@
                 <thead>
                   <tr>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">KODE TRANSAKSI</th>
+                    {{-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">KODE TRANSAKSI</th> --}}
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PATIENT ID</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PATIENT NAME</th>
                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">JUMLAH RESULT TEST ID</th>
@@ -88,7 +87,7 @@
             ajax: "{{ route('order.listdata') }}", // Replace with your route
             columns: [
                  {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                { data: 'KODETRANSAKSI', name: 'KODETRANSAKSI' },
+                // { data: 'KODETRANSAKSI', name: 'KODETRANSAKSI' },
                 { data: 'PATIENT_ID_OPT', name: 'PATIENT_ID_OPT' },
 
                 { data: 'PATIENT_NAME', name: 'PATIENT_NAME' },

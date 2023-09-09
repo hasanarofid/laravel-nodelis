@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Testdata;
 use Illuminate\Support\Facades\DB;
-
+use App\Models\OrderData;
 use DataTables;
 
 class TestdataController extends Controller
@@ -61,5 +61,78 @@ class TestdataController extends Controller
             // dd($model);
             return view('testdata.detail',compact('model','data'));   
         }
+
+         //transfer data
+    public function transfer(){
+        $model = Testdata::get();
+        $kode_transaksi = $this->kodetransaksi();
+        foreach($model as $value){
+            $cek = OrderData::where('PATIENT_ID_OPT',$value->PATIENT_ID_OPT)->where('RESULT_TEST_ID',$value->RESULT_TEST_ID)->first();
+              if ($cek) {
+                    // String yang mengandung koma
+                    $angka1 = $cek->RESULT_VALUE;
+                    $angka2 = $value->RESULT_VALUE;
+
+                    // Menghapus koma dan mengubah string menjadi float
+                    $floatAngka1 = number_format(str_replace(',', '.', $angka1), 2, '.', '');
+                    $floatAngka2 = number_format(str_replace(',', '.', $angka2), 2, '.', '');
+                    // dd($floatAngka2);
+
+                    // $floatAngka1 = floatval(str_replace(',', '', $angka1));
+                    // $floatAngka2 = floatval(str_replace(',', '', $angka2));
+
+                    // Melakukan penambahan
+                    $hasilPenambahan = (int)$cek->RESULT_VALUE + $floatAngka2;
+                    $hasilAkhir = number_format($hasilPenambahan, 2, '.', ',');
+$query = OrderData::where('PATIENT_ID_OPT',$value->PATIENT_ID_OPT)->where('RESULT_TEST_ID',$value->RESULT_TEST_ID);
+                    // dd($hasilAkhir);die;
+                    //  dd($value);
+                    $query->update([
+                        'TIMESTAMP' => now(),
+                        'DATE_TIME_STAMP' => now(),
+                        // 'PATIENT_ID_OPT' => $value->PATIENT_ID_OPT,
+                        // 'PATIENT_NAME' => $value->PATIENT_NAME,
+                        // 'RESULT_TEST_ID' => $value->RESULT_TEST_ID,
+                        'RESULT_VALUE' => $hasilAkhir,
+                        'RESULT_STATUS' => 'transfer',
+                        'RESULT_DATE' => now()
+                    ]);
+                    // $cek->TIMESTAMP = now();
+                    // //   $cek->KODETRANSAKSI = $kode_transaksi;
+                    // $cek->DATE_TIME_STAMP = $value->DATE_TIME_STAMP;
+                    // $cek->PATIENT_ID_OPT = $value->PATIENT_ID_OPT;
+                    // $cek->PATIENT_NAME = $value->PATIENT_NAME;
+                    // $cek->RESULT_TEST_ID = $value->RESULT_TEST_ID;
+
+                    // $cek->RESULT_VALUE = (string)$hasilAkhir;
+                    // $cek->RESULT_STATUS = 'transfer';
+                    // $cek->RESULT_DATE = now();
+                    // // dd($cek);
+                    // $cek->update();
+                } else {
+                    // Jika tidak memenuhi kondisi, lewati pembaruan
+                    continue;
+                }
+
+          
+            
+        }
+
+        return redirect()->route('order.list')->with('success', 'Order data berhasil di transfer ke test data');
+
+    }
+
+    public function kodetransaksi()
+    {
+
+        $initial_r = "LAB-TF";
+        $default = "001";
+        $prefix = $initial_r . date('Ymd');
+        $transaksi = OrderData::select(DB::raw('CAST(MAX(SUBSTR(KODETRANSAKSI,' . (strlen($prefix) + 1) . ',' . (strlen($default)) . ')) AS integer) KODETRANSAKSI'))
+            ->where('KODETRANSAKSI', 'like', '' . $prefix . '%')
+            ->first();
+        $no_baru = $prefix . (isset($transaksi->KODETRANSAKSI) ? (str_pad($transaksi->KODETRANSAKSI + 1, strlen($default), 0, STR_PAD_LEFT)) : $default);
+        return $no_baru;
+    }
 
 }

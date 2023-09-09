@@ -28,8 +28,8 @@ class OrderController extends Controller
     public function listdata(Request $request){
         // dd($request)
          if ($request->ajax()) {
-             $data = OrderData::select('PATIENT_ID_OPT','KODETRANSAKSI','PATIENT_NAME', DB::raw('count(RESULT_TEST_ID) as RESULT_TEST_ID'))
-        ->groupBy('PATIENT_ID_OPT','KODETRANSAKSI','PATIENT_NAME')
+             $data = OrderData::select('PATIENT_ID_OPT','PATIENT_NAME', DB::raw('count(RESULT_TEST_ID) as RESULT_TEST_ID'))
+        ->groupBy('PATIENT_ID_OPT','PATIENT_NAME')
         ->get();
             // $post = Testdata::select('PATIENT_ID_OPT', DB::raw('SUM(amount) as total_amount'))
             //  ->groupBy('patient_id')
@@ -128,20 +128,24 @@ $data = MasterTindakan::select(DB::raw("CONCAT(name, ' - ', stok) AS text"), 'id
             
               
          }
+         $kode_transaksi = $this->kodetransaksi($pasien->no_rm);
+
+
         foreach($request->tindakan as $key=>$value){
             $stok = MasterTindakan::find($key)->stok;
             $test = MasterTindakan::find($key)->name;
             $tindakan = MasterTindakan::find($key);
           
-
             foreach($value as $mutasi){
+                                 $model = new OrderData();
+                $model->KODETRANSAKSI = $kode_transaksi;
+
                 $output = str_replace(',', '.', $mutasi);
                 // var_dump($output); // string(4) "5.50"
                 $number = (float)$output;
                  $hasil = (float)$stok - $number;
             // dd($hasil);
-                $model = new OrderData();
-                $model->KODETRANSAKSI = $this->kodetransaksi();
+               
                 $model->PATIENT_ID_OPT = $pasien->no_rm;
                 $model->PATIENT_NAME = $pasien->name;
                 $model->RESULT_TEST_ID = $test;
@@ -169,24 +173,45 @@ $data = MasterTindakan::select(DB::raw("CONCAT(name, ' - ', stok) AS text"), 'id
         return response()->json($data);
     }
 
-     public function kodetransaksi()
+     public function kodetransaksi($no_rm)
     {
         $initial_r = "LAB";
-        $default = "001";
-        $prefix = $initial_r . date('Ymd');
-        $transaksi = OrderData::select(DB::raw('CAST(MAX(SUBSTR(KODETRANSAKSI,' . (strlen($prefix) + 1) . ',' . (strlen($default)) . ')) AS integer) KODETRANSAKSI'))
-            ->where('KODETRANSAKSI', 'like', '' . $prefix . '%')
-            ->first();
-        $no_baru = $prefix . (isset($transaksi->KODETRANSAKSI) ? (str_pad($transaksi->KODETRANSAKSI + 1, strlen($default), 0, STR_PAD_LEFT)) : $default);
+$default = "001";
+$prefix = $initial_r . date('Ymd');
+
+// Find the maximum transaction code for a specific patient
+$transaksi = OrderData::select(DB::raw('CAST(MAX(SUBSTR(KODETRANSAKSI,' . (strlen($prefix) + 1) . ',' . (strlen($default)) . ')) AS integer) KODETRANSAKSI'))
+    ->where('KODETRANSAKSI', 'like', '' . $prefix . '%')
+    ->where('PATIENT_ID_OPT', '=', $no_rm) // Replace $your_pasien_id with the actual patient ID
+    ->first();
+
+// Generate a new transaction code
+$no_baru = $prefix . (isset($transaksi->KODETRANSAKSI) ? (str_pad($transaksi->KODETRANSAKSI + 1, strlen($default), '0', STR_PAD_LEFT)) : $default);
+        // $initial_r = "LAB";
+        // $default = "001";
+        // $prefix = $initial_r . date('Ymd');
+        // $transaksi = OrderData::select(DB::raw('CAST(MAX(SUBSTR(KODETRANSAKSI,' . (strlen($prefix) + 1) . ',' . (strlen($default)) . ')) AS integer) KODETRANSAKSI'))
+        //     ->where('KODETRANSAKSI', 'like', '' . $prefix . '%')
+        //     ->first();
+        // $no_baru = $prefix . (isset($transaksi->KODETRANSAKSI) ? (str_pad($transaksi->KODETRANSAKSI + 1, strlen($default), 0, STR_PAD_LEFT)) : $default);
         return $no_baru;
     }
 
          //detail
     public function detail($id){
-        $model = OrderData::where('PATIENT_ID_OPT',$id)->first();
-    $pasien = Patient::where('no_rm',$id)->first();
 
-        return view('order.detail',compact('model','pasien'));     
+       $model = OrderData::where('PATIENT_ID_OPT',$id)->first();
+            $data= OrderData::where('PATIENT_ID_OPT',$id)->get();
+            $master = [];
+            foreach($data as $value){
+                $master[] = $value->RESULT_TEST_ID;
+            }
+            $paket = MasterTindakan::whereIn('name', $master)->whereNotNull('id_master')->first()->id_master;
+            $nama_paket = MasterTindakan::find($paket)->name;
+                // dd($nama_paket);
+
+
+        return view('order.detail',compact('model','data','nama_paket'));     
     }
 
   public function print($id){

@@ -34,6 +34,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
          Route::get('/edit/{id}', [App\Http\Controllers\TestdataController::class, 'edit'])->name('testdata.edit');
          Route::get('/hapus/{id}', [App\Http\Controllers\TestdataController::class, 'hapus'])->name('testdata.hapus');
 
+   Route::get('transfer', [App\Http\Controllers\TestdataController::class, 'transfer'])->name('testdata.transfer');
     });
     // end route menu produk 
 
@@ -110,7 +111,6 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
          Route::get('/print/{id}', [App\Http\Controllers\OrderController::class, 'print'])->name('order.print');
    Route::get('/print/{id}', [App\Http\Controllers\OrderController::class, 'print'])->name('order.print');
 
-   Route::get('transfer', [App\Http\Controllers\OrderController::class, 'transfer'])->name('order.transfer');
     });
 
     // route menu Test 

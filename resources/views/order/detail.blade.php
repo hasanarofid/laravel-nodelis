@@ -1,9 +1,9 @@
 @extends('layouts.master')
-@section('title','Detail Master Tindakan')
-@section('subjudul','Detail Master Tindakan')
+@section('title','Order data')
+@section('subjudul','Detail Order data')
 @section('breadcrumbs')
 <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Dashboard</a></li>
-<li class="breadcrumb-item text-sm text-white active" aria-current="page">Detail Master Tindakan</li>
+<li class="breadcrumb-item text-sm text-white active" aria-current="page">Order data</li>
 
 @endsection
 <style>
@@ -16,54 +16,7 @@
 #data-table tbody tr {
     font-size: 12px; /* Adjust the font size to your desired value */
 }
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
-}
 
-.patient-card {
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    display: flex;
-}
-
-.patient-info {
-    flex: 1;
-}
-
-.patient-medical {
-    flex: 1;
-    border-left: 1px solid #ccc;
-    padding-left: 20px;
-}
-
-h2 {
-    font-size: 1.2rem;
-    margin-top: 0;
-}
-
-p {
-    margin: 10px 0;
-}
-
-strong {
-    font-weight: bold;
-}
-
-/* Responsive layout for smaller screens */
-@media (max-width: 600px) {
-    .patient-card {
-        flex-direction: column;
-    }
-
-    .patient-medical {
-        border-left: none;
-        padding-left: 0;
-        margin-top: 20px;
-    }
-}
 
 </style>
 @section ('content')
@@ -74,32 +27,52 @@ strong {
             <div class="card-header pb-0 p-3">
                 <div class="row">
                   <div class="col-6 d-flex align-items-center">
-                    <h6 class="mb-0">Laporan Pasien </h6>
+                    <h6 class="mb-0">Detail Order data</h6>
                   </div>
                 </div>
               </div>
 
           <div class="card-body ">
-
-
-           <h1>Laporan Pasien</h1>
-        <div class="patient-card">
-            <div class="patient-info">
-                 <h2>Informasi pasien</h2>
-                <p><strong>Nama:</strong> {{  $pasien->name }}</p>
-                <p><strong>No Rm:</strong> {{  $pasien->no_rm }}</p>
-                <p><strong>Alamat:</strong> {{  $pasien->address }}</p>
-            </div>
-            <div class="patient-medical">
-                 <h2>Medical Information</h2>
-                <p><strong>Kode Transaksi :</strong> {{ $model->KODETRANSAKSI  }}</p>
-                <p><strong>Result Test:</strong> {{ $model->RESULT_TEST_ID }}</p>
-                <p><strong>Result Value :</strong> {{ $model->RESULT_VALUE }}</p>
-                <p><strong>Tanggal :</strong> {{ $model->RESULT_DATE }}</p>
-            </div>
-        </div>
          
-            
+            <div class="table-responsive p-0">
+     <form id="detailForm">
+                    <div class="mb-3">
+                        <label for="detailId" class="form-label"> <h6> ID: {{ $model->PATIENT_ID_OPT  }} </h6> </label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="detailName" class="form-label"><h6> Name: {{ $model->PATIENT_NAME  }} </h6></label>
+                    </div>
+                     <div class="mb-3">
+                        <label for="detailName" class="form-label"><h6> Paket: {{ $nama_paket  }} </h6></label>
+                    </div>
+                    <!-- Add more detail fields as needed -->
+                    <hr>
+                    <table class="table align-items-center mb-0 table-primary table-hover table-bordered">
+                    <thead> 
+                    <tr>
+                        {{-- <th>Kode transaksi</th> --}}
+                        <th>Result Test</th>
+
+                        <th>Result Value</th>
+                    </tr>
+                     </thead>
+                     <tbody>
+                        @foreach ($data as $item)
+                              <tr>
+                              {{-- <td>{{ $item->KODETRANSAKSI }}</td> --}}
+                              <td>{{ $item->RESULT_TEST_ID }}</td>
+
+                              <td>{{ $item->RESULT_VALUE }}</td>
+
+
+                              </tr>
+                        @endforeach
+                     </tbody>
+                    </table>
+
+
+                </form>
+            </div>
           </div>
         </div>
       </div>
