@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/data-demographics', [App\Http\Controllers\ApiController::class, 'ambilDataDemografi'])->name('data-demographics');
+Route::get('/data-ordered-item', [App\Http\Controllers\ApiController::class, 'dataOrderedItem'])->name('data-ordered-item');
+Route::get('/data-registration', [App\Http\Controllers\ApiController::class, 'dataRegistration'])->name('data-registration');
+Route::get('/data-result-bridge', [App\Http\Controllers\ApiController::class, 'dataResultBridge'])->name('data-result-bridge');
