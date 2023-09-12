@@ -63,7 +63,9 @@
                     {{-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">KODE TRANSAKSI</th> --}}
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PATIENT ID</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PATIENT NAME</th>
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">JUMLAH RESULT TEST ID</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">TIMESTAMP</th>
+
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="width: 5%">JUMLAH RESULT TEST ID</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Aksi</th>
                   </tr>
                 </thead>
@@ -91,6 +93,9 @@
                 { data: 'PATIENT_ID_OPT', name: 'PATIENT_ID_OPT' },
 
                 { data: 'PATIENT_NAME', name: 'PATIENT_NAME' },
+                { data: 'tgl', name: 'tgl' },
+
+                
                 { data: 'RESULT_TEST_ID', name: 'RESULT_TEST_ID' },
                {data: 'action', name: 'action', orderable: false, searchable: false},
 

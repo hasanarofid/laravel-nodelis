@@ -42,27 +42,36 @@
                     <div class="mb-3">
                         <label for="detailName" class="form-label"><h6> Name: {{ $model->PATIENT_NAME  }} </h6></label>
                     </div>
-                     <div class="mb-3">
+                     {{-- <div class="mb-3">
                         <label for="detailName" class="form-label"><h6> Paket: {{ $nama_paket  }} </h6></label>
-                    </div>
+                    </div> --}}
                     <!-- Add more detail fields as needed -->
                     <hr>
                     <table class="table align-items-center mb-0 table-primary table-hover table-bordered">
                     <thead> 
                     <tr>
-                        {{-- <th>Kode transaksi</th> --}}
+                        <th>Paket</th>
                         <th>Result Test</th>
 
                         <th>Result Value</th>
+                        {{-- <th>Timestamp</th> --}}
                     </tr>
                      </thead>
                      <tbody>
                         @foreach ($data as $item)
+                        @php
+                              $paket = App\Models\MasterTindakan::where('name', $item->RESULT_TEST_ID)->whereNotNull('id_master')->first()->id_master;
+                              // dd($paket);
+            $nama_paket = App\Models\MasterTindakan::find($paket)->name;
+            // dd($nama_paket);
+                        @endphp
                               <tr>
-                              {{-- <td>{{ $item->KODETRANSAKSI }}</td> --}}
+                              <td>{{ $nama_paket }}</td>
                               <td>{{ $item->RESULT_TEST_ID }}</td>
 
                               <td>{{ $item->RESULT_VALUE }}</td>
+                              {{-- <td>{{ $item->TIMESTAMP }}</td> --}}
+
 
 
                               </tr>
