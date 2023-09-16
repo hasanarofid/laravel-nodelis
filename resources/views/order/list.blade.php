@@ -65,7 +65,9 @@
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PATIENT NAME</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">TIMESTAMP</th>
 
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="width: 5%">JUMLAH RESULT TEST ID</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="width: 5%">JUMLAH RESULT TEST ID</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="width: 5%">RESULT STATUS</th>
+
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Aksi</th>
                   </tr>
                 </thead>
@@ -95,8 +97,9 @@
                 { data: 'PATIENT_NAME', name: 'PATIENT_NAME' },
                 { data: 'tgl', name: 'tgl' },
 
-                
                 { data: 'RESULT_TEST_ID', name: 'RESULT_TEST_ID' },
+                
+                { data: 'RESULT_STATUS', name: 'RESULT_STATUS' },
                {data: 'action', name: 'action', orderable: false, searchable: false},
 
 //  {data: 'action', name: 'action', orderable: false, searchable: false},

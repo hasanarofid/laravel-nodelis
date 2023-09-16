@@ -35,6 +35,10 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         Route::get('/hapus/{id}', [App\Http\Controllers\TestdataController::class, 'hapus'])->name('testdata.hapus');
         Route::get('transfer', [App\Http\Controllers\TestdataController::class, 'transfer'])->name('testdata.transfer');
         Route::get('/transfertest/{id}', [App\Http\Controllers\TestdataController::class, 'transfertest'])->name('testdata.transfertest');
+        Route::get('cekpasien', [App\Http\Controllers\TestdataController::class, 'cekpasien'])->name('testdata.cekpasien');
+        Route::get('loadtabledata', [App\Http\Controllers\TestdataController::class, 'loadtabledata'])->name('testdata.loadtabledata');
+        Route::post('senddata', [App\Http\Controllers\TestdataController::class, 'senddata'])->name('testdata.senddata');
+
 
         // transfertest
     });

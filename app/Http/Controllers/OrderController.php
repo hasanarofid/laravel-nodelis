@@ -32,8 +32,8 @@ class OrderController extends Controller
     {
         // dd($request)
         if ($request->ajax()) {
-            $data = OrderData::select('PATIENT_ID_OPT', 'PATIENT_NAME', 'TIMESTAMP', DB::raw('count(RESULT_TEST_ID) as RESULT_TEST_ID'))
-                ->groupBy('PATIENT_ID_OPT', 'PATIENT_NAME', 'TIMESTAMP')
+            $data = OrderData::select('PATIENT_ID_OPT', 'PATIENT_NAME', 'TIMESTAMP', 'RESULT_STATUS', DB::raw('count(RESULT_TEST_ID) as RESULT_TEST_ID'))
+                ->groupBy('PATIENT_ID_OPT', 'PATIENT_NAME', 'TIMESTAMP', 'RESULT_STATUS')
                 ->get();
             // $post = Testdata::select('PATIENT_ID_OPT', DB::raw('SUM(amount) as total_amount'))
             //  ->groupBy('patient_id')

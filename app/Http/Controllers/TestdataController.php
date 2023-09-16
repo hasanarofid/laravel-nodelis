@@ -44,7 +44,7 @@ class TestdataController extends Controller
                     $btn = '<a href="' . route('testdata.detail', array('id' => $row->PATIENT_ID_OPT)) . '" data-toggle="tooltip"  class="edit btn btn-primary btn-sm ">Detail</a>';
                     $btn = $btn . ' <a href="' . route('testdata.edit', $row->PATIENT_ID_OPT) . '" data-toggle="tooltip" data-toggle="modal" data-target="#confirmDeleteModal"    data-original-title="Delete" class="btn btn-warning btn-sm deletePost">Edit</a>';
                     $btn = $btn . ' <a href="' . route('testdata.hapus', $row->PATIENT_ID_OPT) . '" data-toggle="tooltip" data-toggle="modal" data-target="#confirmDeleteModal"    data-original-title="Delete" class="btn btn-danger btn-sm deletePost">Delete</a>';
-                    $btn = $btn . '<a href="' . route('testdata.transfertest', $row->PATIENT_ID_OPT) . '"  class="btn btn-sm bg-info text-white" ><i class="fa fa-send-o" aria-hidden="true"></i>&nbsp;&nbsp;Transfer Order</a>';
+                    $btn = $btn . '<a href="#"  onclick="transferData(\'' . $row->PATIENT_ID_OPT . '\')"   class="btn btn-sm bg-info text-white" ><i class="fa fa-send-o" aria-hidden="true"></i>&nbsp;&nbsp;Transfer Order</a>';
 
                     return $btn;
                 })
@@ -166,5 +166,90 @@ class TestdataController extends Controller
         }
 
         return redirect()->route('order.list')->with('success', 'Order data berhasil di transfer ke test data');
+    }
+
+    //cekpasien
+    public function cekpasien(Request $request)
+    {
+        $order = OrderData::where('PATIENT_ID_OPT', $request->pasien_id)->first();
+        $data = [];
+        if ($order) {
+            $data['status'] = 'ada';
+            $data['pesan'] = 'Apakah anda akan melakukan transfer data ?';
+
+            $tableData = OrderData::where('PATIENT_ID_OPT', $request->pasien_id)->get();
+            $data['tabel'] = $tableData;
+            // dd($tableData);
+            // Return the HTML for the table view
+            // return view('testdata.table-view', compact('tableData'));
+        } else {
+            $data['status'] = 'tidak ada';
+            $data['pesan'] = 'Data Order Tidak ada, tidak bisa dilakukan transfer';
+            $data['tabel'] = 'kosong';
+        }
+        // dd($data);
+        return response()->json($data);
+    }
+
+    //loadtabledata
+    public function loadtabledata(Request $request)
+    {
+        $tableData = OrderData::select('PATIENT_ID_OPT', 'PATIENT_NAME', 'TIMESTAMP', DB::raw('count(RESULT_TEST_ID) as RESULT_TEST_ID'))
+            ->groupBy('PATIENT_ID_OPT', 'PATIENT_NAME', 'TIMESTAMP')
+            ->where('PATIENT_ID_OPT', $request->pasien_id)
+            ->where('RESULT_STATUS', 'Pending')
+            ->get();
+
+        return view('testdata.table-view', compact('tableData'));
+    }
+
+    // senddata
+    public function senddata(Request $request)
+    {
+        $id = $request->pasien_id;
+        $data = Testdata::where('PATIENT_ID_OPT', $id)->get();
+        foreach ($data as $value) {
+            // dd($value->PATIENT_NAME);
+            // die;
+            $cek = OrderData::where('PATIENT_ID_OPT', $value->PATIENT_ID_OPT)->where('RESULT_TEST_ID', $value->RESULT_TEST_ID)->first();
+            if ($cek) {
+                foreach ($request->selectedData as $data) {
+                    OrderData::where('PATIENT_ID_OPT', $id)
+                        ->where('TIMESTAMP', $data)
+                        ->update([
+                            'TIMESTAMP' => now(),
+                            'DATE_TIME_STAMP' => now(),
+                            'PATIENT_ID_OPT' => $value->PATIENT_ID_OPT,
+                            'PATIENT_NAME' => $value->PATIENT_NAME,
+                            'RESULT_TEST_ID' => $value->RESULT_TEST_ID,
+                            'RESULT_VALUE' => $value->RESULT_VALUE,
+                            'RESULT_STATUS' => 'menunggu validasi',
+                            'RESULT_DATE' => now(),
+                        ]);
+                    // dd($data);
+                    // $model =  OrderData::where('PATIENT_ID_OPT', $id)->where('TIMESTAMP', $data)->first();
+
+                    // $model->TIMESTAMP = now();
+                    // //   $model->KODETRANSAKSI = $kode_transaksi;
+                    // $model->DATE_TIME_STAMP = now();
+                    // $model->PATIENT_ID_OPT = $value->PATIENT_ID_OPT;
+                    // $model->PATIENT_NAME = $value->PATIENT_NAME;
+                    // $model->RESULT_TEST_ID = $value->RESULT_TEST_ID;
+
+                    // $model->RESULT_VALUE =  $value->RESULT_VALUE;
+                    // $model->RESULT_STATUS = 'menunggu validasi';
+                    // $model->RESULT_DATE = now();
+                    // // dd($model);
+                    // $model->update();
+                    // dd($model);
+                }
+            } else {
+                // Jika tidak memenuhi kondisi, lewati pembaruan
+                continue;
+            }
+        }
+        return response()->json('transfer successfully');
+        // return redirect()->route('order.list')->with('success', 'Order created successfully');
+        // dd($request->post());
     }
 }
