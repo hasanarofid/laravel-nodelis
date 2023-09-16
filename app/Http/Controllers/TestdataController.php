@@ -44,7 +44,7 @@ class TestdataController extends Controller
                     $btn = '<a href="' . route('testdata.detail', array('id' => $row->PATIENT_ID_OPT)) . '" data-toggle="tooltip"  class="edit btn btn-primary btn-sm ">Detail</a>';
                     $btn = $btn . ' <a href="' . route('testdata.edit', $row->PATIENT_ID_OPT) . '" data-toggle="tooltip" data-toggle="modal" data-target="#confirmDeleteModal"    data-original-title="Delete" class="btn btn-warning btn-sm deletePost">Edit</a>';
                     $btn = $btn . ' <a href="' . route('testdata.hapus', $row->PATIENT_ID_OPT) . '" data-toggle="tooltip" data-toggle="modal" data-target="#confirmDeleteModal"    data-original-title="Delete" class="btn btn-danger btn-sm deletePost">Delete</a>';
-
+                    $btn = $btn . '<a href="' . route('testdata.transfertest', $row->PATIENT_ID_OPT) . '"  class="btn btn-sm bg-info text-white" ><i class="fa fa-send-o" aria-hidden="true"></i>&nbsp;&nbsp;Transfer Order</a>';
 
                     return $btn;
                 })
@@ -132,5 +132,39 @@ class TestdataController extends Controller
             ->first();
         $no_baru = $prefix . (isset($transaksi->KODETRANSAKSI) ? (str_pad($transaksi->KODETRANSAKSI + 1, strlen($default), 0, STR_PAD_LEFT)) : $default);
         return $no_baru;
+    }
+
+    // hapus data
+    public function hapus($id)
+    {
+        // dd($id);
+        $model = Testdata::where('PATIENT_ID_OPT', $id)->delete();
+        return redirect()->route('testdata.index')->with('success', 'test data deleted successfully');
+    }
+
+    // transfertest
+    public function transfertest($id, Request $request)
+    {
+        $model =
+            Testdata::where('PATIENT_ID_OPT', $id)->get();
+        foreach ($model as $value) {
+            // $cek = OrderData::where('PATIENT_ID_OPT', $value->PATIENT_ID_OPT)->where('RESULT_TEST_ID', $value->RESULT_TEST_ID)->first();
+
+            $model = new OrderData();
+            $model->TIMESTAMP = now();
+            //   $model->KODETRANSAKSI = $kode_transaksi;
+            $model->DATE_TIME_STAMP = now();
+            $model->PATIENT_ID_OPT = $value->PATIENT_ID_OPT;
+            $model->PATIENT_NAME = $value->PATIENT_NAME;
+            $model->RESULT_TEST_ID = $value->RESULT_TEST_ID;
+
+            $model->RESULT_VALUE =  $value->RESULT_VALUE;
+            $model->RESULT_STATUS = 'transfer';
+            $model->RESULT_DATE = now();
+            // dd($model);
+            $model->save();
+        }
+
+        return redirect()->route('order.list')->with('success', 'Order data berhasil di transfer ke test data');
     }
 }
