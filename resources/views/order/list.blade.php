@@ -19,6 +19,9 @@
 
 
 </style>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.7/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.11.7/js/jquery.dataTables.min.js"></script>
+
 @section ('content')
 <div class="container-fluid py-4">
     <div class="row">
@@ -80,11 +83,23 @@
 
   </div>
 @endsection
+<!-- SweetAlert2 CSS and JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @section('js')
 
 <script>
     jQuery(document).ready(function () {
       // alert(1);
+      loadtabel();
+
+    });
+let dataTable; // Define a global variable to hold the DataTables instance
+
+    function loadtabel(){
+      if (dataTable) {
+        dataTable.destroy(); // Destroy the existing DataTables instance if it exists
+    }
         jQuery('#data-table').DataTable({
             processing: true,
             serverSide: true,
@@ -106,7 +121,44 @@
                 // Define more columns as needed
             ]
         });
-    });
+    }
+
+    function hapusData(id,time){
+        Swal.fire({
+                            title: 'Informasi',
+                            text: 'Apakah anda yakin menghapus data ini?',
+                            icon: 'warning',
+                             customClass: {
+        container: 'custom-swal-width' // Apply the custom CSS class to the modal
+    },
+                            showCancelButton: true,
+                            confirmButtonColor: '#d33',
+                            cancelButtonColor: '#3085d6',
+                            confirmButtonText: 'Hapus'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                         
+                                          jQuery.ajax({
+                                              url: "{{ route('order.hapusdata') }}", // Replace with your endpoint for sending data
+                                              method: 'POST',
+                                              data: {
+                                                  id: id,
+                                                  time : time
+                                              },
+                                              success: function (response) {
+                                                  Swal.fire('Success', 'Data has been deleted.', 'success');
+                                                  // loadtabel();
+                                                   window.location.reload();
+                                              },
+                                              error: function () {
+                                                  Swal.fire('Error', 'Failed to deleted.', 'error');
+                                              }
+                                          });
+                                     
+                            }
+                        });
+
+    }
 </script>
 
 @endsection

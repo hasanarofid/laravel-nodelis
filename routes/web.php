@@ -110,6 +110,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         Route::get('/getDokter', [App\Http\Controllers\OrderController::class, 'getDokter'])->name('order.getDokter');
         Route::get('/getTindakan', [App\Http\Controllers\OrderController::class, 'getTindakan'])->name('order.getTindakan');
         Route::get('/getlistTindakan', [App\Http\Controllers\OrderController::class, 'getlistTindakan'])->name('order.getlistTindakan');
+        Route::post('hapusdata', [App\Http\Controllers\OrderController::class, 'hapusdata'])->name('order.hapusdata');
 
         Route::post('store', [App\Http\Controllers\OrderController::class, 'store'])->name('order.store');
         Route::get('/detail/{id}/{time}', [App\Http\Controllers\OrderController::class, 'detail'])->name('order.detail');

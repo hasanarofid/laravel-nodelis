@@ -54,9 +54,10 @@ class OrderController extends Controller
                 })
                 ->addColumn('action', function ($row) {
 
-                    //  dd($row->ID);  
+
                     $btn = '<a href="' . route('order.detail', array('id' => $row->PATIENT_ID_OPT, 'time' => $row->TIMESTAMP)) . '" data-toggle="tooltip"  class="edit btn btn-primary btn-sm ">Detail</a>';
                     $btn = $btn . ' <a href="' . route('order.print', $row->PATIENT_ID_OPT) . '" data-toggle="tooltip"  class="btn btn-warning btn-sm deletePost">Print</a>';
+                    $btn = $btn . ' <a class="btn btn-danger btn-sm" href="#" onclick ="hapusData(\'' . $row->PATIENT_ID_OPT . '\',\'' . $row->TIMESTAMP . '\')" >Hapus</a>';
 
 
                     return $btn;
@@ -273,5 +274,17 @@ class OrderController extends Controller
         }
 
         return redirect()->route('order.list')->with('success', 'Order data berhasil di transfer ke test data');
+    }
+
+    public function hapusdata(Request $request)
+    {
+        $data = OrderData::where('PATIENT_ID_OPT', $request->id)
+            ->where('TIMESTAMP', $request->time)
+            ->get();
+        foreach ($data as $record) {
+            $model = OrderData::where('ID', $record->ID)->delete();
+            // dd($model);
+        }
+        return response()->json('berhasil');
     }
 }
