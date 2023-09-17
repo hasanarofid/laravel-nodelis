@@ -218,11 +218,9 @@ class TestdataController extends Controller
                 // die;
                 OrderData::where('PATIENT_ID_OPT', $id)
                     ->where('TIMESTAMP', $time)
-                    ->where('RESULT_TEST_ID', $value->RESULT_TEST_ID)
                     ->update([
                         'TIMESTAMP' => now(),
                         'DATE_TIME_STAMP' => now(),
-                        'PATIENT_ID_OPT' => $value->PATIENT_ID_OPT,
                         'PATIENT_NAME' => $value->PATIENT_NAME,
                         'RESULT_TEST_ID' => $value->RESULT_TEST_ID,
                         'RESULT_VALUE' => $value->RESULT_VALUE,
@@ -235,5 +233,7 @@ class TestdataController extends Controller
 
 
         return response()->json('transfer successfully');
+        // return redirect()->route('order.list')->with('success', 'Order created successfully');
+        // dd($request->post());
     }
 }

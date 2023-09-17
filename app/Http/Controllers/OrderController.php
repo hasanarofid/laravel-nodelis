@@ -200,12 +200,17 @@ class OrderController extends Controller
 
         $model = OrderData::where('PATIENT_ID_OPT', $id)->first();
         // $data = OrderData::where('PATIENT_ID_OPT', $id)->get();
-        $data = OrderData::select('PATIENT_ID_OPT', 'PATIENT_NAME', 'TIMESTAMP', 'RESULT_TEST_ID', 'RESULT_VALUE')
-            ->groupBy('PATIENT_ID_OPT', 'PATIENT_NAME', 'TIMESTAMP', 'RESULT_TEST_ID', 'RESULT_VALUE')
+        $data = OrderData::select('PATIENT_ID_OPT', 'PATIENT_NAME', 'TIMESTAMP', 'RESULT_STATUS', 'RESULT_VALUE', DB::raw('ID as ID'), DB::raw('RESULT_TEST_ID as RESULT_TEST_ID'))
+            ->groupBy('PATIENT_ID_OPT', 'PATIENT_NAME', 'TIMESTAMP', 'RESULT_STATUS', 'RESULT_VALUE', 'ID', 'RESULT_TEST_ID')
             ->where('PATIENT_ID_OPT', $id)
             ->where('TIMESTAMP', $time)
-
             ->get();
+        // $data = OrderData::select('PATIENT_ID_OPT', 'PATIENT_NAME', 'TIMESTAMP')
+        //     ->groupBy('PATIENT_ID_OPT', 'PATIENT_NAME', 'TIMESTAMP')
+        //     ->where('PATIENT_ID_OPT', $id)
+        //     ->where('TIMESTAMP', $time)
+        //     ->get();
+        // dd($data);
 
         $master = [];
         foreach ($data as $value) {
