@@ -112,7 +112,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         Route::get('/getlistTindakan', [App\Http\Controllers\OrderController::class, 'getlistTindakan'])->name('order.getlistTindakan');
 
         Route::post('store', [App\Http\Controllers\OrderController::class, 'store'])->name('order.store');
-        Route::get('/detail/{id}', [App\Http\Controllers\OrderController::class, 'detail'])->name('order.detail');
+        Route::get('/detail/{id}/{time}', [App\Http\Controllers\OrderController::class, 'detail'])->name('order.detail');
         Route::get('/print/{id}', [App\Http\Controllers\OrderController::class, 'print'])->name('order.print');
         Route::get('/print/{id}', [App\Http\Controllers\OrderController::class, 'print'])->name('order.print');
     });

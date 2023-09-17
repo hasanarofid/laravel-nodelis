@@ -55,7 +55,7 @@ class OrderController extends Controller
                 ->addColumn('action', function ($row) {
 
                     //  dd($row->ID);  
-                    $btn = '<a href="' . route('order.detail', array('id' => $row->PATIENT_ID_OPT)) . '" data-toggle="tooltip"  class="edit btn btn-primary btn-sm ">Detail</a>';
+                    $btn = '<a href="' . route('order.detail', array('id' => $row->PATIENT_ID_OPT, 'time' => $row->TIMESTAMP)) . '" data-toggle="tooltip"  class="edit btn btn-primary btn-sm ">Detail</a>';
                     $btn = $btn . ' <a href="' . route('order.print', $row->PATIENT_ID_OPT) . '" data-toggle="tooltip"  class="btn btn-warning btn-sm deletePost">Print</a>';
 
 
@@ -151,6 +151,7 @@ class OrderController extends Controller
                 $model->PATIENT_NAME = $pasien->name;
                 $model->RESULT_TEST_ID = $test;
                 $model->RESULT_VALUE = $mutasi;
+                $model->RESULT_STATUS = 'Pending';
                 $model->RESULT_DATE = now();
                 $model->save();
             }
@@ -194,15 +195,23 @@ class OrderController extends Controller
     }
 
     //detail
-    public function detail($id)
+    public function detail($id, $time)
     {
 
         $model = OrderData::where('PATIENT_ID_OPT', $id)->first();
-        $data = OrderData::where('PATIENT_ID_OPT', $id)->get();
+        // $data = OrderData::where('PATIENT_ID_OPT', $id)->get();
+        $data = OrderData::select('PATIENT_ID_OPT', 'PATIENT_NAME', 'TIMESTAMP', 'RESULT_TEST_ID', 'RESULT_VALUE')
+            ->groupBy('PATIENT_ID_OPT', 'PATIENT_NAME', 'TIMESTAMP', 'RESULT_TEST_ID', 'RESULT_VALUE')
+            ->where('PATIENT_ID_OPT', $id)
+            ->where('TIMESTAMP', $time)
+
+            ->get();
+
         $master = [];
         foreach ($data as $value) {
             $master[] = $value->RESULT_TEST_ID;
         }
+        // dd($master);
         $paket = MasterTindakan::whereIn('name', $master)->whereNotNull('id_master')->first()->id_master;
         $nama_paket = MasterTindakan::find($paket)->name;
         // dd($nama_paket);

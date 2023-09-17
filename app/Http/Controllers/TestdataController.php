@@ -207,49 +207,33 @@ class TestdataController extends Controller
     public function senddata(Request $request)
     {
         $id = $request->pasien_id;
-        $data = Testdata::where('PATIENT_ID_OPT', $id)->get();
-        foreach ($data as $value) {
-            // dd($value->PATIENT_NAME);
-            // die;
-            $cek = OrderData::where('PATIENT_ID_OPT', $value->PATIENT_ID_OPT)->where('RESULT_TEST_ID', $value->RESULT_TEST_ID)->first();
-            if ($cek) {
-                foreach ($request->selectedData as $data) {
-                    OrderData::where('PATIENT_ID_OPT', $id)
-                        ->where('TIMESTAMP', $data)
-                        ->update([
-                            'TIMESTAMP' => now(),
-                            'DATE_TIME_STAMP' => now(),
-                            'PATIENT_ID_OPT' => $value->PATIENT_ID_OPT,
-                            'PATIENT_NAME' => $value->PATIENT_NAME,
-                            'RESULT_TEST_ID' => $value->RESULT_TEST_ID,
-                            'RESULT_VALUE' => $value->RESULT_VALUE,
-                            'RESULT_STATUS' => 'menunggu validasi',
-                            'RESULT_DATE' => now(),
-                        ]);
-                    // dd($data);
-                    // $model =  OrderData::where('PATIENT_ID_OPT', $id)->where('TIMESTAMP', $data)->first();
-
-                    // $model->TIMESTAMP = now();
-                    // //   $model->KODETRANSAKSI = $kode_transaksi;
-                    // $model->DATE_TIME_STAMP = now();
-                    // $model->PATIENT_ID_OPT = $value->PATIENT_ID_OPT;
-                    // $model->PATIENT_NAME = $value->PATIENT_NAME;
-                    // $model->RESULT_TEST_ID = $value->RESULT_TEST_ID;
-
-                    // $model->RESULT_VALUE =  $value->RESULT_VALUE;
-                    // $model->RESULT_STATUS = 'menunggu validasi';
-                    // $model->RESULT_DATE = now();
-                    // // dd($model);
-                    // $model->update();
-                    // dd($model);
-                }
-            } else {
-                // Jika tidak memenuhi kondisi, lewati pembaruan
-                continue;
+        foreach ($request->selectedData as $time) {
+            $cek = OrderData::select('RESULT_TEST_ID')->where('PATIENT_ID_OPT', $id)->where('TIMESTAMP', $time)->groupBy('RESULT_TEST_ID')->get();
+            // dd($cek);
+            $data = Testdata::whereIn('RESULT_TEST_ID', $cek)->where('PATIENT_ID_OPT', $id)->get();
+            // $data = Testdata::where('PATIENT_ID_OPT', $id)->get();
+            // dd($data);
+            foreach ($data as $value) {
+                // dd($value->PATIENT_NAME);
+                // die;
+                OrderData::where('PATIENT_ID_OPT', $id)
+                    ->where('TIMESTAMP', $time)
+                    ->where('RESULT_TEST_ID', $value->RESULT_TEST_ID)
+                    ->update([
+                        'TIMESTAMP' => now(),
+                        'DATE_TIME_STAMP' => now(),
+                        'PATIENT_ID_OPT' => $value->PATIENT_ID_OPT,
+                        'PATIENT_NAME' => $value->PATIENT_NAME,
+                        'RESULT_TEST_ID' => $value->RESULT_TEST_ID,
+                        'RESULT_VALUE' => $value->RESULT_VALUE,
+                        'RESULT_STATUS' => 'menunggu validasi',
+                        'RESULT_DATE' => now(),
+                    ]);
             }
         }
+
+
+
         return response()->json('transfer successfully');
-        // return redirect()->route('order.list')->with('success', 'Order created successfully');
-        // dd($request->post());
     }
 }
