@@ -110,53 +110,52 @@ class OrderController extends Controller
         $total_inventory = count($request->tindakan);
         // dd($request->paket);
         //proses inventory
-        foreach ($request->paket as $key => $value) {
-            $inventory = Inventory::where('tindakan_id', $key)->get();
-            $pengurangan = 1;
-            foreach ($inventory as $inv) {
-                $inves = Inventory::find($inv->id);
-                $kurang = $inves->stok - $pengurangan;
-                //  dd($kurang);
+        // foreach ($request->paket as $key => $value) {
+        //     $inventory = Inventory::where('tindakan_id', $key)->get();
+        //     $pengurangan = 1;
+        //     foreach ($inventory as $inv) {
+        //         $inves = Inventory::find($inv->id);
+        //         $kurang = $inves->stok - $pengurangan;
+        //         //  dd($kurang);
 
-                $modelmutasi = new MutasiTindakan();
-                $modelmutasi->tanggal = now();
-                $modelmutasi->mutasi = $pengurangan;
-                $modelmutasi->patien_id = $pasien->id;
-                $modelmutasi->inventory_id = $inves->id;
-                $modelmutasi->save();
+        //         $modelmutasi = new MutasiTindakan();
+        //         $modelmutasi->tanggal = now();
+        //         $modelmutasi->mutasi = $pengurangan;
+        //         $modelmutasi->patien_id = $pasien->id;
+        //         $modelmutasi->inventory_id = $inves->id;
+        //         $modelmutasi->save();
 
-                // pungurangan stok
-                $inves->stok = $kurang;
-                $inves->save();
-            }
-        }
+        //         // pungurangan stok
+        //         $inves->stok = $kurang;
+        //         $inves->save();
+        //     }
+        // }
         $kode_transaksi = $this->kodetransaksi($pasien->no_rm);
-
 
         foreach ($request->tindakan as $key => $value) {
             $stok = MasterTindakan::find($key)->stok;
             $test = MasterTindakan::find($key)->name;
             $tindakan = MasterTindakan::find($key);
+            $model = new OrderData();
+            $model->KODETRANSAKSI = $kode_transaksi;
 
             foreach ($value as $mutasi) {
-                $model = new OrderData();
-                $model->KODETRANSAKSI = $kode_transaksi;
 
-                $output = str_replace(',', '.', $mutasi);
-                // var_dump($output); // string(4) "5.50"
-                $number = (float)$output;
-                $hasil = (float)$stok - $number;
+                // $output = str_replace(',', '.', $mutasi);
+                // // var_dump($output); // string(4) "5.50"
+                // $number = (float)$output;
+                // $hasil = (float)$stok - $number;
                 // dd($hasil);
 
-                $model->PATIENT_ID_OPT = $pasien->no_rm;
-                $model->PATIENT_NAME = $pasien->name;
-                $model->RESULT_TEST_ID = $test;
+
                 $model->RESULT_VALUE = $mutasi;
-                $model->RESULT_STATUS = 'Pending';
-                $model->RESULT_DATE = now();
-                $model->TIMESTAMP = now();
-                $model->save();
             }
+            $model->PATIENT_ID_OPT = $pasien->no_rm;
+            $model->PATIENT_NAME = $pasien->name;
+            $model->RESULT_TEST_ID = $test;
+
+            $model->RESULT_STATUS = 'Pending';
+            $model->save();
         }
 
 
