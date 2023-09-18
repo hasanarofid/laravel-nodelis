@@ -133,29 +133,22 @@ class OrderController extends Controller
         $kode_transaksi = $this->kodetransaksi($pasien->no_rm);
 
         foreach ($request->tindakan as $key => $value) {
-            $stok = MasterTindakan::find($key)->stok;
+
             $test = MasterTindakan::find($key)->name;
-            $tindakan = MasterTindakan::find($key);
-            $model = new OrderData();
-            $model->KODETRANSAKSI = $kode_transaksi;
+
 
             foreach ($value as $mutasi) {
-
-                // $output = str_replace(',', '.', $mutasi);
-                // // var_dump($output); // string(4) "5.50"
-                // $number = (float)$output;
-                // $hasil = (float)$stok - $number;
-                // dd($hasil);
-
+                $model = new OrderData();
+                $model->KODETRANSAKSI = $kode_transaksi;
 
                 $model->RESULT_VALUE = $mutasi;
-            }
-            $model->PATIENT_ID_OPT = $pasien->no_rm;
-            $model->PATIENT_NAME = $pasien->name;
-            $model->RESULT_TEST_ID = $test;
+                $model->PATIENT_ID_OPT = $pasien->no_rm;
+                $model->PATIENT_NAME = $pasien->name;
+                $model->RESULT_TEST_ID = $test;
 
-            $model->RESULT_STATUS = 'Pending';
-            $model->save();
+                $model->RESULT_STATUS = 'Pending';
+                $model->save();
+            }
         }
 
 
