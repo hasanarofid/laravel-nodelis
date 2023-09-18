@@ -154,6 +154,7 @@ class OrderController extends Controller
                 $model->RESULT_VALUE = $mutasi;
                 $model->RESULT_STATUS = 'Pending';
                 $model->RESULT_DATE = now();
+                $model->TIMESTAMP = now();
                 $model->save();
             }
         }
@@ -205,6 +206,7 @@ class OrderController extends Controller
             ->groupBy('PATIENT_ID_OPT', 'PATIENT_NAME', 'TIMESTAMP', 'RESULT_STATUS', 'RESULT_VALUE', 'ID', 'RESULT_TEST_ID')
             ->where('PATIENT_ID_OPT', $id)
             ->where('TIMESTAMP', $time)
+            ->orderBy('TIMESTAMP', 'DESC')
             ->get();
         // $data = OrderData::select('PATIENT_ID_OPT', 'PATIENT_NAME', 'TIMESTAMP')
         //     ->groupBy('PATIENT_ID_OPT', 'PATIENT_NAME', 'TIMESTAMP')

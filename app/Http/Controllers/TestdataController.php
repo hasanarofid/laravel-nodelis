@@ -209,7 +209,7 @@ class TestdataController extends Controller
         $id = $request->pasien_id;
         foreach ($request->selectedData as $time) {
             $cek = OrderData::where('PATIENT_ID_OPT', $id)
-                ->where('TIMESTAMP', $time)->get();
+                ->where('TIMESTAMP', $time)->orderBy('ID', 'DESC')->get();
 
             foreach ($cek as $order) {
                 $value = Testdata::where('PATIENT_ID_OPT', $id)
