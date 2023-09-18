@@ -131,7 +131,7 @@ class OrderController extends Controller
         //     }
         // }
         $kode_transaksi = $this->kodetransaksi($pasien->no_rm);
-
+        $timestamp = now();
         foreach ($request->tindakan as $key => $value) {
 
             $test = MasterTindakan::find($key)->name;
@@ -145,7 +145,8 @@ class OrderController extends Controller
                 $model->PATIENT_ID_OPT = $pasien->no_rm;
                 $model->PATIENT_NAME = $pasien->name;
                 $model->RESULT_TEST_ID = $test;
-
+                $model->TIMESTAMP = $timestamp;
+                
                 $model->RESULT_STATUS = 'Pending';
                 $model->save();
             }
