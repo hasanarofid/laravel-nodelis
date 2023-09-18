@@ -207,6 +207,7 @@ class TestdataController extends Controller
     public function senddata(Request $request)
     {
         $id = $request->pasien_id;
+        $timestamp = now();
         foreach ($request->selectedData as $time) {
             $cek = OrderData::where('PATIENT_ID_OPT', $id)
                 ->where('TIMESTAMP', $time)->orderBy('ID', 'DESC')->get();
@@ -218,11 +219,11 @@ class TestdataController extends Controller
                     ->where('TIMESTAMP', $time)
                     ->where('RESULT_TEST_ID', $order->RESULT_TEST_ID)
                     ->update([
-                        'TIMESTAMP' => now(),
-                        'DATE_TIME_STAMP' => now(),
+                        'TIMESTAMP' => $timestamp,
+                        'DATE_TIME_STAMP' => $timestamp,
                         'RESULT_VALUE' => !empty($value) ? $value->RESULT_VALUE : null,
                         'RESULT_STATUS' => 'menunggu validasi',
-                        'RESULT_DATE' => now(),
+                        'RESULT_DATE' => $timestamp,
                     ]);
                 // dd($data);
             }
