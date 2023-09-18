@@ -141,12 +141,17 @@ class OrderController extends Controller
                 $model = new OrderData();
                 $model->KODETRANSAKSI = $kode_transaksi;
 
-                $model->RESULT_VALUE = $mutasi;
+                $model->RESULT_VALUE  = $mutasi;
                 $model->PATIENT_ID_OPT = $pasien->no_rm;
                 $model->PATIENT_NAME = $pasien->name;
                 $model->RESULT_TEST_ID = $test;
+
                 $model->TIMESTAMP = $timestamp;
-                
+                $model->DATE_TIME_STAMP = $timestamp;
+                $model->RESULT_DATE = $timestamp;
+
+
+
                 $model->RESULT_STATUS = 'Pending';
                 $model->save();
             }

@@ -220,7 +220,7 @@ class TestdataController extends Controller
                     ->update([
                         'TIMESTAMP' => now(),
                         'DATE_TIME_STAMP' => now(),
-                        'RESULT_VALUE' => $value->RESULT_VALUE,
+                        'RESULT_VALUE' => !empty($value) ? $value->RESULT_VALUE : null,
                         'RESULT_STATUS' => 'menunggu validasi',
                         'RESULT_DATE' => now(),
                     ]);
