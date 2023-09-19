@@ -57,6 +57,45 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     });
     // end route menu pasien 
 
+    // route menu paket 
+    Route::prefix('paket')->group(function () {
+        Route::get('/', [App\Http\Controllers\PaketController::class, 'index'])->name('paket.index');
+        Route::get('list', [App\Http\Controllers\PaketController::class, 'list'])->name('paket.list');
+        Route::get('add', [App\Http\Controllers\PaketController::class, 'add'])->name('paket.add');
+        Route::post('store', [App\Http\Controllers\PaketController::class, 'store'])->name('paket.store');
+        Route::get('/detail/{id}', [App\Http\Controllers\PaketController::class, 'detail'])->name('paket.detail');
+        Route::get('/edit/{id}', [App\Http\Controllers\PaketController::class, 'edit'])->name('paket.edit');
+        Route::get('/hapus/{id}', [App\Http\Controllers\PaketController::class, 'hapus'])->name('paket.hapus');
+        Route::post('/update/{id}', [App\Http\Controllers\PaketController::class, 'update'])->name('paket.update');
+    });
+    // end route menu paket 
+
+    // route menu master test 
+    Route::prefix('master-test')->group(function () {
+        Route::get('/', [App\Http\Controllers\MasterTestController::class, 'index'])->name('master-test.index');
+        Route::get('list', [App\Http\Controllers\MasterTestController::class, 'list'])->name('master-test.list');
+        Route::get('add', [App\Http\Controllers\MasterTestController::class, 'add'])->name('master-test.add');
+        Route::post('store', [App\Http\Controllers\MasterTestController::class, 'store'])->name('master-test.store');
+        Route::get('/detail/{id}', [App\Http\Controllers\MasterTestController::class, 'detail'])->name('master-test.detail');
+        Route::get('/edit/{id}', [App\Http\Controllers\MasterTestController::class, 'edit'])->name('master-test.edit');
+        Route::get('/hapus/{id}', [App\Http\Controllers\MasterTestController::class, 'hapus'])->name('master-test.hapus');
+        Route::post('/update/{id}', [App\Http\Controllers\MasterTestController::class, 'update'])->name('master-test.update');
+    });
+    // end route menu master test 
+
+    // route menu master  
+    Route::prefix('master')->group(function () {
+        Route::get('/', [App\Http\Controllers\MasterController::class, 'index'])->name('master.index');
+        Route::get('list', [App\Http\Controllers\MasterController::class, 'list'])->name('master.list');
+        Route::get('add', [App\Http\Controllers\MasterController::class, 'add'])->name('master.add');
+        Route::post('store', [App\Http\Controllers\MasterController::class, 'store'])->name('master.store');
+        Route::get('/detail/{id}', [App\Http\Controllers\MasterController::class, 'detail'])->name('master.detail');
+        Route::get('/edit/{id}', [App\Http\Controllers\MasterController::class, 'edit'])->name('master.edit');
+        Route::get('/hapus/{id}', [App\Http\Controllers\MasterController::class, 'hapus'])->name('master.hapus');
+        Route::post('/update/{id}', [App\Http\Controllers\MasterController::class, 'update'])->name('master.update');
+    });
+    // end route menu master 
+
 
     // route menu Dokter 
     Route::prefix('dokter')->group(function () {

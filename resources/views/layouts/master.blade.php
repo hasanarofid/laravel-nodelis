@@ -97,7 +97,7 @@
               <span class="nav-link-text ms-1">Dokter</span>
             </a>
           </li>
-
+{{-- 
           <li class="nav-item">
             <a class="nav-link {{ (request()->is('admin/mastertindakan*')) ? 'active' : '' }}" href="{{ route('mastertindakan.index') }}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -105,7 +105,9 @@
               </div>
               <span class="nav-link-text ms-1">Master Tindakan</span>
             </a>
-          </li>
+          </li> --}}
+
+
 
             <li class="nav-item">
             <a class="nav-link {{ (request()->is('admin/inventory*')) ? 'active' : '' }}" href="{{ route('inventory.index') }}">
@@ -139,6 +141,29 @@
               <span class="nav-link-text ms-1">Laporan</span>
             </a>
           </li>
+
+
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="masterTindakanDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="fa fa-solid fa-flask text-primary text-sm opacity-10"></i>
+        </div>
+        <span class="nav-link-text ms-1">Master Tindakan</span>
+    </a>
+    <!-- Sub-menu -->
+    <div  class="dropdown-menu" aria-labelledby="masterTindakanDropdown">
+        <a class="dropdown-item" href="{{ route('paket.index') }}">
+            Paket
+        </a>
+        <a class="dropdown-item" href="{{ route('master-test.index') }}">
+            Test
+        </a>
+        <a class="dropdown-item" href="{{ route('master.index') }}">
+            Master
+        </a>
+        <!-- Add more sub-menu items as needed -->
+    </div>
+</li>
         @endif
 
         
@@ -225,6 +250,29 @@
 <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.print.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.colVis.min.js"></script>
 <script>
+
+const dropdownMenus = document.querySelectorAll('.nav-item.dropdown');
+
+    // Loop through each dropdown menu
+    dropdownMenus.forEach((menu) => {
+        // Find the dropdown toggle link within the menu
+        const dropdownToggle = menu.querySelector('.nav-link.dropdown-toggle');
+        // Find the dropdown menu itself
+        const dropdownMenu = menu.querySelector('.dropdown-menu');
+
+        // Add a mouseenter event listener to the dropdown toggle link
+        dropdownToggle.addEventListener('mouseenter', () => {
+            // Display the dropdown menu
+            dropdownMenu.style.display = 'block';
+        });
+
+        // Add a mouseleave event listener to the dropdown menu
+        dropdownMenu.addEventListener('mouseleave', () => {
+            // Hide the dropdown menu
+            dropdownMenu.style.display = 'none';
+        });
+    });
+
   $.noConflict();
   // Your jQuery code using jQuery directly with "jQuery" instead of "$"
   jQuery(document).ready(function($) {
