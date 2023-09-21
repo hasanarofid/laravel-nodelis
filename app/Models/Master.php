@@ -9,4 +9,8 @@ class Master extends Model
 {
     use HasFactory;
     protected $table = 'master';
+    public function masterTest()
+    {
+        return $this->belongsTo(MasterTest::class, 'master_test_id', 'id');
+    }
 }

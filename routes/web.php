@@ -80,7 +80,9 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         Route::get('/edit/{id}', [App\Http\Controllers\MasterTestController::class, 'edit'])->name('master-test.edit');
         Route::get('/hapus/{id}', [App\Http\Controllers\MasterTestController::class, 'hapus'])->name('master-test.hapus');
         Route::post('/update/{id}', [App\Http\Controllers\MasterTestController::class, 'update'])->name('master-test.update');
+        Route::get('getPaket', [App\Http\Controllers\MasterTestController::class, 'getPaket'])->name('master-test.getPaket');
     });
+
     // end route menu master test 
 
     // route menu master  
@@ -93,6 +95,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         Route::get('/edit/{id}', [App\Http\Controllers\MasterController::class, 'edit'])->name('master.edit');
         Route::get('/hapus/{id}', [App\Http\Controllers\MasterController::class, 'hapus'])->name('master.hapus');
         Route::post('/update/{id}', [App\Http\Controllers\MasterController::class, 'update'])->name('master.update');
+        Route::get('getMasterTest', [App\Http\Controllers\MasterController::class, 'getMasterTest'])->name('master.getMasterTest');
     });
     // end route menu master 
 
